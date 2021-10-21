@@ -6,6 +6,8 @@
       :clipped="clipped"
       fixed
       app
+      @mouseover.native="miniVariant = false"
+      @mouseout.native="miniVariant = true"
     >
       <v-list>
         <v-list-item
@@ -35,8 +37,19 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn>
+      <v-btn
+        icon
+        @click.stop="
+          rtl = !rtl
+          changeRTL(rtl)
+        "
+      >
+        <v-icon>mdi-minus</v-icon>
+      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <nuxt-link :to="switchLocalePath('en')">English</nuxt-link>
+      <nuxt-link :to="switchLocalePath('ar')">عربي</nuxt-link>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
@@ -66,13 +79,13 @@
 export default {
   data() {
     return {
-      clipped: false,
+      clipped: true,
       drawer: false,
       fixed: false,
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: this.$t('welcome'),
           to: '/',
         },
         {
@@ -81,14 +94,18 @@ export default {
           to: '/inspire',
         },
       ],
-      miniVariant: false,
-      right: true,
+      miniVariant: true,
+      right: false,
       rightDrawer: false,
       title: 'Vuetify.js',
+      rtl: false,
     }
   },
-  changeRTL() {
-    this.$vuetify.rtl = true
+  methods: {
+    changeRTL(val) {
+      this.$vuetify.rtl = val
+      this.right = !val
+    },
   },
 }
 </script>
