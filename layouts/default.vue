@@ -4,10 +4,14 @@
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
+      :right="!right"
       fixed
       app
-      @mouseover.native="miniVariant = false"
-      @mouseout.native="miniVariant = true"
+      @mouseenter.native="
+        pinned = miniVariant
+        miniVariant = false
+      "
+      @mouseleave.native="miniVariant = pinned"
     >
       <v-list>
         <v-list-item
@@ -26,7 +30,12 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar
+      :clipped-left="!$vuetify.rtl && clipped ? true : false"
+      :clipped-right="$vuetify.rtl && clipped ? true : false"
+      fixed
+      app
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
@@ -37,19 +46,13 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="
-          rtl = !rtl
-          changeRTL(rtl)
-        "
-      >
+      <v-btn icon @click.stop="changeRTL(!$vuetify.rtl)">
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <nuxt-link :to="switchLocalePath('en')">English</nuxt-link>
-      <nuxt-link :to="switchLocalePath('ar')">عربي</nuxt-link>
+      <nuxt-link :to="switchLocalePath('en')">En</nuxt-link> &nbsp; | &nbsp;
+      <nuxt-link :to="switchLocalePath('ar')">Ar</nuxt-link>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
@@ -80,25 +83,30 @@ export default {
   data() {
     return {
       clipped: true,
-      drawer: false,
+      drawer: true,
       fixed: false,
       items: [
         {
           icon: 'mdi-apps',
           title: this.$t('welcome'),
-          to: '/',
+          to: this.localePath('/'),
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'Inspire',
-          to: '/inspire',
+          to: this.localePath('/inspire'),
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Login',
+          to: this.localePath('/login'),
         },
       ],
       miniVariant: true,
       right: false,
       rightDrawer: false,
       title: 'Vuetify.js',
-      rtl: false,
+      pinned: this.miniVariant,
     }
   },
   methods: {
