@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -7,6 +7,8 @@
       :right="!right"
       fixed
       app
+      color="secondary"
+      dark
       @mouseenter.native="
         pinned = miniVariant
         miniVariant = false
@@ -35,10 +37,16 @@
       :clipped-right="$vuetify.rtl && clipped ? true : false"
       fixed
       app
+      class="white--text font-weight-thin"
+      color="primary"
+      dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+        <!--v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon-->
+        <v-icon
+          >mdi-{{ `pin-${miniVariant ? 'outline' : 'off-outline'}` }}</v-icon
+        >
       </v-btn>
       <v-btn icon @click.stop="clipped = !clipped">
         <v-icon>mdi-application</v-icon>
@@ -47,8 +55,23 @@
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-btn icon @click.stop="changeRTL(!$vuetify.rtl)">
-        <v-icon>mdi-minus</v-icon>
+        <v-icon
+          >mdi-{{
+            `align-horizontal-${!$vuetify.rtl ? 'right' : 'left'}`
+          }}</v-icon
+        >
       </v-btn>
+      <v-switch
+        v-model="$vuetify.theme.dark"
+        icon
+        hint="This toggles the global state of the Vuetify theme"
+        :label="$vuetify.theme.dark ? 'dark' : ''"
+        align="center"
+        inset
+        class="pa-4 mt-5"
+        color="secondary"
+        dark
+      ></v-switch>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <nuxt-link :to="switchLocalePath('en')">En</nuxt-link> &nbsp; | &nbsp;
@@ -97,9 +120,14 @@ export default {
           to: this.localePath('/inspire'),
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-login-variant',
           title: 'Login',
           to: this.localePath('/login'),
+        },
+        {
+          icon: 'mdi-account-plus',
+          title: 'Register',
+          to: this.localePath('/login/register'),
         },
       ],
       miniVariant: true,
@@ -111,6 +139,7 @@ export default {
   },
   methods: {
     changeRTL(val) {
+      this.$vuetify.theme.themes.dark.anchor = '#ff0000'
       this.$vuetify.rtl = val
       this.right = !val
     },

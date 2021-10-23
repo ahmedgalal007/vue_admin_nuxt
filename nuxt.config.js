@@ -18,7 +18,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/vee-validate.js', ssr: true }],
+  plugins: ['~/plugins/axios', { src: '~/plugins/vee-validate.js', ssr: true }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -66,10 +66,19 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     rtl: true,
     theme: {
-      dark: true,
+      dark: false,
+      default: 'light',
+      disable: false,
+      options: {
+        cspNonce: undefined,
+        customProperties: undefined,
+        minifyTheme: undefined,
+        themeCache: undefined,
+      },
       themes: {
         dark: {
           primary: colors.blue.darken2,
+          fontcolor: colors.green.accent4,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -77,6 +86,7 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
         },
+        light: {},
       },
     },
   },

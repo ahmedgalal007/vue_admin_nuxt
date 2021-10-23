@@ -1,77 +1,91 @@
 <template>
   <validation-observer ref="observer" v-slot="{ invalid }">
-    <form @submit.prevent="submit">
-      <validation-provider
-        v-slot="{ errors }"
-        name="Name"
-        rules="required|max:10"
-      >
-        <v-text-field
-          v-model="name"
-          :counter="10"
-          :error-messages="errors"
-          label="Name"
-          required
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider
-        v-slot="{ errors }"
-        name="phoneNumber"
-        :rules="{
-          required: true,
-          digits: 7,
-          regex: '^(71|72|74|76|81|82|84|85|86|87|88|89)\\d{5}$',
-        }"
-      >
-        <v-text-field
-          v-model="phoneNumber"
-          :counter="7"
-          :error-messages="errors"
-          label="Phone Number"
-          required
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider
-        v-slot="{ errors }"
-        name="email"
-        rules="required|email"
-      >
-        <v-text-field
-          v-model="email"
-          :error-messages="errors"
-          label="E-mail"
-          required
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider v-slot="{ errors }" name="select" rules="required">
-        <v-select
-          v-model="select"
-          :items="items"
-          :error-messages="errors"
-          label="Select"
-          data-vv-name="select"
-          required
-        ></v-select>
-      </validation-provider>
-      <validation-provider v-slot="{ errors }" rules="required" name="checkbox">
-        <v-checkbox
-          v-model="checkbox"
-          :error-messages="errors"
-          value="1"
-          label="Option"
-          type="checkbox"
-          required
-        ></v-checkbox>
-      </validation-provider>
-
-      <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn>
-      <v-btn @click="clear"> clear </v-btn>
-    </form>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="8" md="4">
+        <form @submit.prevent="submit">
+          <v-card class="logo d-flex justify-center">
+            <EpicLogo />
+          </v-card>
+          <v-card>
+            <v-divider></v-divider>
+            <v-card-title justify="center" class="headline justify-center">
+              EPIC SYSTEMS
+            </v-card-title>
+            <v-card-text>
+              <validation-provider
+                v-slot="{ errors }"
+                name="userName"
+                rules="required|max:10"
+              >
+                <v-text-field
+                  v-model="userName"
+                  :counter="10"
+                  :error-messages="errors"
+                  label="User Name"
+                  prepend-icon="mdi-account-circle"
+                  required
+                  outlined
+                ></v-text-field>
+              </validation-provider>
+              <validation-provider
+                v-slot="{ errors }"
+                name="password"
+                :rules="{
+                  required: true,
+                  max: 12,
+                  min: 8,
+                }"
+              >
+                <v-text-field
+                  v-model="password"
+                  :counter="12"
+                  :error-messages="errors"
+                  label="Password"
+                  :type="showPassword ? 'text' : 'password'"
+                  prepend-icon="mdi-lock"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  required
+                  outlined
+                  @click:append="showPassword = !showPassword"
+                ></v-text-field>
+              </validation-provider>
+              <validation-provider
+                v-slot="{ errors }"
+                rules="required"
+                name="rememberMe"
+              >
+                <v-checkbox
+                  v-model="rememberMe"
+                  :error-messages="errors"
+                  value="1"
+                  label="Remember Me"
+                  type="checkbox"
+                  required
+                ></v-checkbox>
+              </validation-provider>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn color="error" type="submit" :disabled="invalid" block>
+                Login
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </form>
+      </v-col>
+    </v-row>
   </validation-observer>
 </template>
 
 <script>
-import { required, digits, email, max, regex } from 'vee-validate/dist/rules'
+import {
+  required,
+  digits,
+  email,
+  min,
+  max,
+  regex,
+} from 'vee-validate/dist/rules'
 import {
   extend,
   ValidationObserver,
@@ -96,6 +110,11 @@ extend('max', {
   message: '{_field_} may not be greater than {length} characters',
 })
 
+extend('min', {
+  ...min,
+  message: '{_field_} may not be less than {length} characters',
+})
+
 extend('regex', {
   ...regex,
   message: '{_field_} {_value_} does not match {regex}',
@@ -111,26 +130,17 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
+  layout: 'empty2',
   data: () => ({
-    name: '',
-    phoneNumber: '',
-    email: '',
-    select: null,
-    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4'],
-    checkbox: null,
+    userName: '',
+    password: '',
+    showPassword: false,
+    rememberMe: null,
   }),
 
   methods: {
     submit() {
       this.$refs.observer.validate()
-    },
-    clear() {
-      this.name = ''
-      this.phoneNumber = ''
-      this.email = ''
-      this.select = null
-      this.checkbox = null
-      this.$refs.observer.reset()
     },
   },
 }
