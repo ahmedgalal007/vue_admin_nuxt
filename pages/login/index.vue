@@ -4,7 +4,9 @@
       <v-col cols="12" sm="8" md="4">
         <form @submit.prevent="submit">
           <v-card class="logo d-flex justify-center">
-            <EpicLogo />
+            <nuxt-link to="/">
+              <EpicLogo />
+            </nuxt-link>
           </v-card>
           <v-card>
             <v-divider></v-divider>

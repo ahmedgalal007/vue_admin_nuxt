@@ -67,6 +67,7 @@ export default {
     rtl: true,
     theme: {
       dark: false,
+      light: true,
       default: 'light',
       disable: false,
       options: {

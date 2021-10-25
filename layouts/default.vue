@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
+      :mini-variant="miniVariant && $vuetify.breakpoint.lgAndUp"
       :clipped="clipped"
       :right="!right"
       fixed
@@ -42,17 +42,22 @@
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
+      <v-btn
+        v-if="$vuetify.breakpoint.lgAndUp"
+        icon
+        @click.stop="miniVariant = !miniVariant"
+      >
         <!--v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon-->
         <v-icon
           >mdi-{{ `pin-${miniVariant ? 'outline' : 'off-outline'}` }}</v-icon
         >
       </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
+      <v-btn
+        v-if="$vuetify.breakpoint.lgAndUp"
+        icon
+        @click.stop="clipped = !clipped"
+      >
         <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-btn icon @click.stop="changeRTL(!$vuetify.rtl)">
         <v-icon
@@ -63,19 +68,29 @@
       </v-btn>
       <v-switch
         v-model="$vuetify.theme.dark"
-        icon
-        hint="This toggles the global state of the Vuetify theme"
-        :label="$vuetify.theme.dark ? 'dark' : ''"
+        :color="!!$vuetify.theme.dark ? 'red' : 'orange'"
         align="center"
-        inset
-        class="pa-4 mt-5"
-        color="secondary"
-        dark
-      ></v-switch>
+        class="pa-4 mx-1"
+        hide-details
+        light
+      >
+        <template #label>
+          <v-subheader dark>{{
+            `${$vuetify.theme.dark ? 'dark' : 'light'}`
+          }}</v-subheader>
+          <v-progress-circular
+            :indeterminate="$vuetify.theme.dark"
+            :value="0"
+            size="24"
+            color="orange"
+            :class="'ml-2 ' + (!$vuetify.theme.dark ? 'd-none' : '')"
+          ></v-progress-circular>
+        </template>
+      </v-switch>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <nuxt-link :to="switchLocalePath('en')">En</nuxt-link> &nbsp; | &nbsp;
-      <nuxt-link :to="switchLocalePath('ar')">Ar</nuxt-link>
+      <VLangMenu />
+
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
@@ -95,19 +110,38 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <Footer :opensnakbar="openSnakbar" />
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      :right="$vuetify.breakpoint.lgAndUp"
+    >
+      {{ text }}
+
+      <template #action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
+import Footer from './default/footer'
+import VLangMenu from './default/v-lang-menu.vue'
 export default {
+  components: {
+    Footer,
+    VLangMenu,
+  },
   data() {
     return {
       clipped: true,
       drawer: true,
-      fixed: false,
+      snackbar: true,
+      text: 'My timeout is set to 2000.',
+      timeout: 2000,
       items: [
         {
           icon: 'mdi-apps',
@@ -135,6 +169,7 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js',
       pinned: this.miniVariant,
+      loading5: false,
     }
   },
   methods: {
@@ -142,6 +177,17 @@ export default {
       this.$vuetify.theme.themes.dark.anchor = '#ff0000'
       this.$vuetify.rtl = val
       this.right = !val
+    },
+    openSnakbar(text, timeout) {
+      this.text = text
+      this.timeout = timeout
+      this.snackbar = true
+    },
+    toggleTheme() {
+      this.$vuetify.theme.light = !this.$vuetify.theme.dark
+      // this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      console.log('Dark:', this.$vuetify.theme.dark)
+      console.log('Light:', this.$vuetify.theme.light)
     },
   },
 }
