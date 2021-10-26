@@ -95,7 +95,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-main>
+    <v-main class="indigo lighten-5">
       <v-container>
         <Nuxt />
       </v-container>
@@ -152,6 +152,11 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Inspire',
           to: this.localePath('/inspire'),
+        },
+        {
+          icon: 'mdi-table',
+          title: 'Data Table',
+          to: this.localePath('/datatables'),
         },
         {
           icon: 'mdi-login-variant',
