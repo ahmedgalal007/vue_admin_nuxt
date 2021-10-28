@@ -52,9 +52,12 @@
     </template>
     <!-- eslint-disable-next-line -->
     <template v-slot:body.prepend="{ headers }" v-if="!getLoading">
-      <tr>
+      <tr class="tr-no-hover">
         <td :colspan="headers.length">
-          <v-filter-combobox></v-filter-combobox>
+          <v-filter-combobox
+            :headers="getHeaders"
+            @filter-datatable="setFilters"
+          ></v-filter-combobox>
         </td>
       </tr>
     </template>
@@ -154,7 +157,10 @@ export default {
       return this.headers
     },
     getItems() {
-      return this.items
+      return this.filterDatatable()
+    },
+    getFilters() {
+      return this.filters
     },
     getTableOptions() {
       return {
@@ -181,9 +187,112 @@ export default {
     getSlotName(name) {
       return 'item.' + name
     },
-    addFilter(filter) {
-      this.filters.Add(filter)
+    // ! Filtering
+    // eslint-disable-next-line spaced-comment
+    //#region Filtering
+    setFilters(model) {
+      this.filters = model
     },
+    filterDatatable() {
+      console.log('Filter-Model:', this.getFilters)
+      let filteredItems = [...this.items]
+      this.getFilters.map((o) => {
+        console.log('Filter-Column:', o)
+        if (o.column.type === String) {
+          filteredItems = this.filterColumnString(
+            filteredItems,
+            o.column,
+            o.operator,
+            o.text
+          )
+          return true
+        } else if (o.column.type === Number) {
+          filteredItems = this.filterColumnNumber(
+            filteredItems,
+            o.column,
+            o.operator,
+            o.text
+          )
+          return true
+        } else if (o.column.type === Date) {
+          filteredItems = this.filterColumnDate(
+            filteredItems,
+            o.column,
+            o.operator,
+            o.text
+          )
+          return true
+        } else if (o.column.type === Boolean) {
+          filteredItems = this.filterColumnBoolean(
+            filteredItems,
+            o.column,
+            o.operator,
+            o.text
+          )
+          return true
+        } else {
+          return false
+        }
+      })
+      console.log('Filtered-Items', filteredItems)
+      return filteredItems
+    },
+    filterColumnString(items, column, operator, value) {
+      return items.filter((item) =>
+        item[column.value]
+          .toString()
+          .toLowerCase()
+          .includes(value.toString().toLowerCase())
+      )
+    },
+    filterColumnNumber(items, column, operator, value) {
+      return items.filter((item) => {
+        console.log(
+          'Number-Filter:',
+          parseFloat(item[column.value], 10),
+          ' - ',
+          parseFloat(value, 10)
+        )
+        if (!isNaN(value) || !isNaN(item[column.value])) {
+          return this.compareItemIsEqualeGreaterLess(
+            parseFloat(item[column.value], 10),
+            operator,
+            parseFloat(value, 10)
+          )
+        }
+        return false
+      })
+    },
+    filterColumnDate(items, column, operator, value) {
+      return items.filter((item) =>
+        this.compareItemIsEqualeGreaterLess(item[column.value], operator, value)
+      )
+    },
+    filterColumnBoolean(items, column, operator, value) {
+      return items.filter((item) => {
+        if (operator.value === 'equale') {
+          return item[column.value] === value
+        } else if (operator.value === 'not-equale') {
+          return item[column.value] !== value
+        }
+        return false
+      })
+    },
+    compareItemIsEqualeGreaterLess(item, operator, value) {
+      if (operator.value === 'equale') {
+        return item === value
+      } else if (operator.value === 'not-equale') {
+        return item !== value
+      } else if (operator.value === 'greater-than') {
+        console.log(operator.value, ' - ', item, ' - ', value)
+        return item > value
+      } else if (operator.value === 'less-than') {
+        return item < value
+      }
+      return false
+    },
+    // eslint-disable-next-line spaced-comment
+    //#endregion
   },
 }
 </script>

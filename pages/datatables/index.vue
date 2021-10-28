@@ -22,9 +22,10 @@ export default {
         text: 'Name',
         align: 'start',
         sortable: false,
-        groupable: true,
+        groupable: false,
         value: 'name',
         type: String,
+        filters: [],
         component: {
           vType: 'v-text-field',
           attrs: {
@@ -38,6 +39,7 @@ export default {
         value: 'val',
         groupable: false,
         type: Number,
+        filters: [],
         component: {
           vType: 'v-text-field',
           attrs: {
