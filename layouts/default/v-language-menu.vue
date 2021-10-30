@@ -35,6 +35,7 @@
 
 <script>
 export default {
+  name: 'VLanguageMenu',
   props: { lang: { type: Number, default: 0 } },
   data() {
     return {

@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: 'VAdminFooter',
   props: { opensnakbar: { type: Function, default: (message, timeout) => {} } },
   data() {
     return {
@@ -29,5 +30,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

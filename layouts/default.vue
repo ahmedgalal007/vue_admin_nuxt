@@ -89,7 +89,7 @@
       </v-switch>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <VLangMenu />
+      <v-language-menu></v-language-menu>
 
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
@@ -110,7 +110,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <Footer :opensnakbar="openSnakbar" />
+    <v-admin-footer :opensnakbar="openSnakbar"></v-admin-footer>
     <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
@@ -128,12 +128,12 @@
 </template>
 
 <script>
-import Footer from './default/footer'
-import VLangMenu from './default/v-lang-menu.vue'
+import VAdminFooter from './default/v-admin-footer.vue'
+import VLanguageMenu from './default/v-language-menu.vue'
 export default {
   components: {
-    Footer,
-    VLangMenu,
+    VAdminFooter,
+    VLanguageMenu,
   },
   data() {
     return {

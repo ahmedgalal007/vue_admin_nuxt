@@ -123,9 +123,10 @@
 </template>
 
 <script>
+import VDataTableDatePicker from './components/v-data-table-date-picker.vue'
 import vFilterCombobox from './components/v-filter-combobox.vue'
 export default {
-  components: { vFilterCombobox },
+  components: { vFilterCombobox, VDataTableDatePicker },
   props: {
     loading: {
       type: Boolean,
@@ -166,9 +167,9 @@ export default {
       return {
         page: 1,
         itemsPerPage: 10,
-        sortBy: ['name'],
+        sortBy: [] /* String[]  column names */,
         sortDesc: [] /* String[]  column names */,
-        groupBy: ['name'],
+        groupBy: [],
         groupDesc: [] /* boolean[] true/false ber column index */,
         multiSort: false,
         mustSort: false,
@@ -269,11 +270,15 @@ export default {
       )
     },
     filterColumnBoolean(items, column, operator, value) {
+      const isTrue = (val) => val === true || val === 'true' || val === 1
+
       return items.filter((item) => {
-        if (operator.value === 'equale') {
-          return item[column.value] === value
-        } else if (operator.value === 'not-equale') {
-          return item[column.value] !== value
+        if (isTrue(value) && isTrue(item[column.value])) {
+          if (operator.value === 'equale') {
+            return isTrue(item[column.value]) === isTrue(value)
+          } else if (operator.value === 'not-equale') {
+            return isTrue(item[column.value]) !== isTrue(value)
+          }
         }
         return false
       })

@@ -1,29 +1,30 @@
 <template>
   <div>
-    <v-switch v-model="isLoading"> </v-switch>
+    <v-switch @change="(e) => setLoading(e)"> </v-switch>
     <v-base-datatable
-      :loading="isLoading"
+      :loading="getLoading"
       :items="items"
       :headers="headers"
-      :table-options="{ groupBy: ['name'], itemsPerPage: 5 }"
+      :table-options="{ groupBy: [], itemsPerPage: 5 }"
     >
     </v-base-datatable>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import vBaseDatatable from '~/components/datatables/v-base-datatable/data-table.vue'
+
 export default {
   components: { vBaseDatatable },
   data: () => ({
-    isLoading: false,
     headers: [
       {
         text: 'Name',
+        value: 'name',
         align: 'start',
         sortable: false,
         groupable: false,
-        value: 'name',
         type: String,
         filters: [],
         component: {
@@ -49,16 +50,91 @@ export default {
           },
         },
       },
+      {
+        text: 'Active',
+        value: 'active',
+        groupable: false,
+        type: Boolean,
+        filters: [],
+        component: {
+          vType: 'v-checkbox',
+          attrs: {
+            'single-line': true,
+            'hide-details': true,
+            type: 'boolean',
+          },
+        },
+      },
+      {
+        text: 'Created',
+        value: 'created',
+        groupable: false,
+        type: Boolean,
+        filters: [],
+        component: {
+          vType: 'v-data-table-date-picker',
+          attrs: {
+            'single-line': true,
+            'hide-details': true,
+            type: 'boolean',
+          },
+        },
+      },
     ],
     items: [
-      { id: 10, name: 'test', val: 15 },
-      { id: 11, name: 'test', val: 15 },
-      { id: 12, name: 'test', val: 18.5 },
-      { id: 13, name: 'tent', val: 45.7 },
-      { id: 14, name: 'tent', val: 15 },
-      { id: 15, name: 'tent', val: 57 },
+      {
+        id: 10,
+        name: 'test-true',
+        val: 15,
+        active: true,
+        created: '1975-08-01',
+      },
+      {
+        id: 11,
+        name: 'test-false',
+        val: 15,
+        active: false,
+        created: '1975-08-02',
+      },
+      {
+        id: 12,
+        name: 'test-true',
+        val: 18.5,
+        active: true,
+        created: '1975-08-03',
+      },
+      {
+        id: 13,
+        name: 'tent-false',
+        val: 45.7,
+        active: false,
+        created: '1975-08-04',
+      },
+      {
+        id: 14,
+        name: 'tent-false',
+        val: 15,
+        active: false,
+        created: '1975-08-05',
+      },
+      {
+        id: 15,
+        name: 'tent-true',
+        val: 57,
+        active: true,
+        created: '1975-08-06',
+      },
     ],
   }),
+  computed: {
+    ...mapGetters(['getLoading']),
+  },
+  created() {
+    this.setLoading(false)
+  },
+  methods: {
+    ...mapActions(['setLoading']),
+  },
 }
 </script>
 
