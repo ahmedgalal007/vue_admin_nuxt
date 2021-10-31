@@ -1,52 +1,23 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant && $vuetify.breakpoint.lgAndUp"
+    <v-admin-navigation-drawer
+      ref="navDrawer"
+      :drawer="getDrawer"
+      :mini-variant="miniVariant"
       :clipped="clipped"
       :right="!right"
-      fixed
-      app
-      color="secondary"
-      dark
-      @mouseenter.native="
-        pinned = miniVariant
-        miniVariant = false
-      "
-      @mouseleave.native="miniVariant = pinned"
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    ></v-admin-navigation-drawer>
     <v-app-bar
-      :clipped-left="!$vuetify.rtl && clipped ? true : false"
-      :clipped-right="$vuetify.rtl && clipped ? true : false"
+      :clipped-left="!$vuetify.rtl && getClipped ? true : false"
+      :clipped-right="$vuetify.rtl && getClipped ? true : false"
       fixed
       app
       class="white--text font-weight-thin"
       color="primary"
       dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        v-if="$vuetify.breakpoint.lgAndUp"
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
+      <v-app-bar-nav-icon @click.stop="toggelDrawer" />
+      <v-btn v-if="$vuetify.breakpoint.lgAndUp" icon @click.stop="toggelPinned">
         <!--v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon-->
         <v-icon
           >mdi-{{ `pin-${miniVariant ? 'outline' : 'off-outline'}` }}</v-icon
@@ -90,8 +61,7 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-language-menu></v-language-menu>
-
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
+      <v-btn icon @click.stop="toggelRightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
@@ -100,16 +70,11 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <v-admin-right-drawer
+      ref="rightDrawer"
+      :right-drawer="rightDrawer"
+      :right="right"
+    ></v-admin-right-drawer>
     <v-admin-footer :opensnakbar="openSnakbar"></v-admin-footer>
     <v-snackbar
       v-model="snackbar"
@@ -128,56 +93,49 @@
 </template>
 
 <script>
+import VAdminNavigationDrawer from './default/v-admin-navigation-drawer.vue'
 import VAdminFooter from './default/v-admin-footer.vue'
 import VLanguageMenu from './default/v-language-menu.vue'
+import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
 export default {
   components: {
+    VAdminNavigationDrawer,
     VAdminFooter,
     VLanguageMenu,
+    VAdminRightDrawer,
   },
   data() {
     return {
+      miniVariant: true,
       clipped: true,
+      right: false,
       drawer: true,
       snackbar: true,
       text: 'My timeout is set to 2000.',
       timeout: 2000,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: this.$t('welcome'),
-          to: this.localePath('/'),
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: this.localePath('/inspire'),
-        },
-        {
-          icon: 'mdi-table',
-          title: 'Data Table',
-          to: this.localePath('/datatables'),
-        },
-        {
-          icon: 'mdi-login-variant',
-          title: 'Login',
-          to: this.localePath('/login'),
-        },
-        {
-          icon: 'mdi-account-plus',
-          title: 'Register',
-          to: this.localePath('/login/register'),
-        },
-      ],
-      miniVariant: true,
-      right: false,
       rightDrawer: false,
       title: 'Vuetify.js',
-      pinned: this.miniVariant,
       loading5: false,
     }
   },
+  computed: {
+    getDrawer() {
+      return this.drawer
+    },
+    getClipped() {
+      return this.clipped
+    },
+  },
   methods: {
+    toggelDrawer() {
+      this.$refs.navDrawer.toggelDrawer()
+    },
+    toggelPinned() {
+      this.miniVariant = this.$refs.navDrawer.toggelPinned()
+    },
+    toggelRightDrawer() {
+      this.miniVariant = this.$refs.rightDrawer.toggelRightDrawer()
+    },
     changeRTL(val) {
       this.$vuetify.theme.themes.dark.anchor = '#ff0000'
       this.$vuetify.rtl = val

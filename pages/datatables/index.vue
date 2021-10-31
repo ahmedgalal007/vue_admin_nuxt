@@ -63,6 +63,9 @@ export default {
             'hide-details': true,
             type: 'boolean',
           },
+          on: {
+            'keyup.space': '$event.target.blur()',
+          },
         },
       },
       {
