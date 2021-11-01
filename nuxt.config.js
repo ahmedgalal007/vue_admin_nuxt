@@ -18,7 +18,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/axios', { src: '~/plugins/vee-validate.js', ssr: true }],
+  plugins: [
+    '~plugins/global-components',
+    '~/plugins/axios',
+    { src: '~/plugins/vee-validate.js', ssr: true },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

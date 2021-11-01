@@ -101,7 +101,7 @@
                 ? field.component.on.blur(props, $event)
                 : null
             "
-            @keyup="
+            @keyup.native="
               field.component.on && field.component.on.keyup
                 ? field.component.on.keyup(props, $event)
                 : null
