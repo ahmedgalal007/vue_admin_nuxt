@@ -69,7 +69,7 @@ export default {
               type: 'boolean',
             },
             on: {
-              keyup: this.keymonitor,
+              keyup: this.checkboxKeyup,
             },
           },
         },
@@ -77,14 +77,14 @@ export default {
           text: 'Created',
           value: 'created',
           groupable: false,
-          type: Boolean,
+          type: Date,
           filters: [],
           component: {
             vType: 'v-data-table-date-picker',
             attrs: {
               'single-line': true,
               'hide-details': true,
-              type: 'boolean',
+              type: 'date',
             },
           },
         },
@@ -143,13 +143,10 @@ export default {
     this.setLoading(false)
   },
   methods: {
-    forceRerender() {
-      this.componentKey += 1
-    },
     itemComponentBlur(props, event) {
       console.log('Item Props:', JSON.stringify(props))
     },
-    keymonitor(props, event) {
+    checkboxKeyup(props, event) {
       if (event.key === 'Enter') {
         NaN()
       } else if (!event.key.replace(/\s/g, '').length) {

@@ -9,12 +9,13 @@
           dense
           class="shrink center"
           @click.prevent="() => {}"
+          @change="filterOperators"
         ></v-autocomplete>
       </v-col>
       <v-col cols="12" md="1">
         <v-autocomplete
           v-model="filterOperator"
-          :items="Operators"
+          :items="getFilteredOperators"
           hide-details
           dense
           class="center"
@@ -124,6 +125,7 @@ export default {
     filterValue: null,
     filterInex: -1,
     items: [],
+    filteredOperators: [],
     nonce: 1,
     menu: false,
     model: [],
@@ -165,6 +167,9 @@ export default {
         { text: '!contains', value: 'not-contains', types: [String] },
       ]
     },
+    getFilteredOperators() {
+      return this.filteredOperators
+    },
   },
   watch: {
     model(val, prev) {
@@ -186,6 +191,14 @@ export default {
   },
 
   methods: {
+    filterOperators(e) {
+      const column = this.getHeaders.filter((o) => o.value === e)
+      if (column && column[0] && column[0].type) {
+        this.filteredOperators = this.Operators.filter((o) =>
+          o.types.includes(column[0].type)
+        )
+      }
+    },
     addToFilters() {
       // * Arrange
       const column = this.getHeaders.filter(
