@@ -96,7 +96,11 @@
             :is="field.component.vType"
             v-model="props.item[field.value]"
             v-bind="field.component.attrs"
-            @blur="logItems(props, $event)"
+            @blur="
+              field.component.on && field.component.on.blur
+                ? field.component.on.blur(props, $event)
+                : null
+            "
           >
           </component>
         </template>
@@ -126,6 +130,7 @@
 import VDataTableDatePicker from './components/v-data-table-date-picker.vue'
 import vFilterCombobox from './components/v-filter-combobox.vue'
 export default {
+  name: 'VBaseDatatable',
   components: { vFilterCombobox, VDataTableDatePicker },
   props: {
     loading: {
@@ -138,7 +143,7 @@ export default {
     },
     items: {
       type: Array,
-      default: () => new Array(5).fill(null),
+      default: () => [],
     },
     tableOptions: {
       type: Object,
@@ -152,6 +157,7 @@ export default {
   },
   computed: {
     getLoading() {
+      console.log('this.loading:', this.loading)
       return this.loading
     },
     getHeaders() {
@@ -182,8 +188,9 @@ export default {
     cancel: () => ({}),
     open: () => ({}),
     close: () => ({}),
-    logItems(props, event) {
-      console.log(JSON.stringify(props))
+
+    itemComponentLostFocus(props, event) {
+      console.log('blurItemCell :', JSON.stringify(props))
     },
     getSlotName(name) {
       return 'item.' + name
@@ -302,7 +309,7 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .v-data-table > .v-data-table__wrapper > table {
   min-height: 300px;
 }
