@@ -101,6 +101,86 @@
                 ? field.component.on.blur(props, $event)
                 : null
             "
+            @keyup="
+              field.component.on && field.component.on.keyup
+                ? field.component.on.keyup(props, $event)
+                : null
+            "
+            @keydown="
+              field.component.on && field.component.on.keydown
+                ? field.component.on.keydown(props, $event)
+                : null
+            "
+            @keypress="
+              field.component.on && field.component.on.keypress
+                ? field.component.on.keypress(props, $event)
+                : null
+            "
+            @change="
+              field.component.on && field.component.on.change
+                ? field.component.on.change(props, $event)
+                : null
+            "
+            @click="
+              field.component.on && field.component.on.click
+                ? field.component.on.click(props, $event)
+                : null
+            "
+            @dblclick="
+              field.component.on && field.component.on.dblclick
+                ? field.component.on.dblclick(props, $event)
+                : null
+            "
+            @drag="
+              field.component.on && field.component.on.drag
+                ? field.component.on.drag(props, $event)
+                : null
+            "
+            @dragenter="
+              field.component.on && field.component.on.dragenter
+                ? field.component.on.dragenter(props, $event)
+                : null
+            "
+            @dragleave="
+              field.component.on && field.component.on.dragleave
+                ? field.component.on.dragleave(props, $event)
+                : null
+            "
+            @dragstart="
+              field.component.on && field.component.on.dragstart
+                ? field.component.on.dragstart(props, $event)
+                : null
+            "
+            @dragend="
+              field.component.on && field.component.on.dragend
+                ? field.component.on.dragend(props, $event)
+                : null
+            "
+            @mouseenter="
+              field.component.on && field.component.on.mouseenter
+                ? field.component.on.mouseenter(props, $event)
+                : null
+            "
+            @mouseout="
+              field.component.on && field.component.on.mouseout
+                ? field.component.on.mouseout(props, $event)
+                : null
+            "
+            @mousedown="
+              field.component.on && field.component.on.mousedown
+                ? field.component.on.mousedown(props, $event)
+                : null
+            "
+            @mouseup="
+              field.component.on && field.component.on.mouseup
+                ? field.component.on.mouseup(props, $event)
+                : null
+            "
+            @mousewheel="
+              field.component.on && field.component.on.mousewheel
+                ? field.component.on.mousewheel(props, $event)
+                : null
+            "
           >
           </component>
         </template>
