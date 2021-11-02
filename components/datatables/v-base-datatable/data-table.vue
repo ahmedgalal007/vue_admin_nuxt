@@ -94,93 +94,18 @@
         <template #default class="ma-0">
           <component
             :is="field.component.vType"
+            v-if="field.component.vType === 'v-checkbox'"
             v-model="props.item[field.value]"
             v-bind="field.component.attrs"
-            @blur="
-              field.component.on && field.component.on.blur
-                ? field.component.on.blur(props, $event)
-                : null
-            "
-            @keyup.native="
-              field.component.on && field.component.on.keyup
-                ? field.component.on.keyup(props, $event)
-                : null
-            "
-            @keydown="
-              field.component.on && field.component.on.keydown
-                ? field.component.on.keydown(props, $event)
-                : null
-            "
-            @keypress="
-              field.component.on && field.component.on.keypress
-                ? field.component.on.keypress(props, $event)
-                : null
-            "
-            @change="
-              field.component.on && field.component.on.change
-                ? field.component.on.change(props, $event)
-                : null
-            "
-            @click="
-              field.component.on && field.component.on.click
-                ? field.component.on.click(props, $event)
-                : null
-            "
-            @dblclick="
-              field.component.on && field.component.on.dblclick
-                ? field.component.on.dblclick(props, $event)
-                : null
-            "
-            @drag="
-              field.component.on && field.component.on.drag
-                ? field.component.on.drag(props, $event)
-                : null
-            "
-            @dragenter="
-              field.component.on && field.component.on.dragenter
-                ? field.component.on.dragenter(props, $event)
-                : null
-            "
-            @dragleave="
-              field.component.on && field.component.on.dragleave
-                ? field.component.on.dragleave(props, $event)
-                : null
-            "
-            @dragstart="
-              field.component.on && field.component.on.dragstart
-                ? field.component.on.dragstart(props, $event)
-                : null
-            "
-            @dragend="
-              field.component.on && field.component.on.dragend
-                ? field.component.on.dragend(props, $event)
-                : null
-            "
-            @mouseenter="
-              field.component.on && field.component.on.mouseenter
-                ? field.component.on.mouseenter(props, $event)
-                : null
-            "
-            @mouseout="
-              field.component.on && field.component.on.mouseout
-                ? field.component.on.mouseout(props, $event)
-                : null
-            "
-            @mousedown="
-              field.component.on && field.component.on.mousedown
-                ? field.component.on.mousedown(props, $event)
-                : null
-            "
-            @mouseup="
-              field.component.on && field.component.on.mouseup
-                ? field.component.on.mouseup(props, $event)
-                : null
-            "
-            @mousewheel="
-              field.component.on && field.component.on.mousewheel
-                ? field.component.on.mousewheel(props, $event)
-                : null
-            "
+            v-on="vOnBindings(field.component.on, field, props)"
+            @keyup.native="checkboxKeyup($event)"
+          ></component>
+          <component
+            :is="field.component.vType"
+            v-else
+            v-model="props.item[field.value]"
+            v-bind="field.component.attrs"
+            v-on="vOnBindings(field.component.on, field, props)"
           >
           </component>
         </template>
@@ -198,9 +123,31 @@
       ></v-simple-checkbox>
     </template>
     <!-- eslint-disable-next-line -->
-    <template v-if="!getLoading" v-slot:body.append="{ headers }">
+    <template v-slot:body.append="props">
       <tr>
-        <td :colspan="headers.length">This is an appended row</td>
+        <td v-for="h in props.headers" :key="h.value">
+          <div v-if="h.value === 'data-table-select'">SS</div>
+          <template v-if="h.footer && h.value !== 'data-table-select'">
+            <component
+              :is="h.footer.vType"
+              v-if="h.footer.vType === 'v-checkbox'"
+              v-bind="h.footer.attrs"
+              v-on="vOnBindings(h.footer.on, h, props)"
+              @keyup.native="checkboxKeyup($event)"
+            >
+            </component>
+            <component
+              :is="h.footer.vType"
+              v-else
+              v-bind="h.footer.attrs"
+              v-on="vOnBindings(h.footer.on, h, props)"
+            >
+            </component>
+          </template>
+          <template v-if="!h.footer && h.value !== 'data-table-select'">
+            <span></span>
+          </template>
+        </td>
       </tr>
     </template>
   </v-data-table>
@@ -268,12 +215,28 @@ export default {
     cancel: () => ({}),
     open: () => ({}),
     close: () => ({}),
-
+    checkboxKeyup(event) {
+      console.log('KEYUP:', event)
+      if (event.key === 'Enter' || !event.key.replace(/\s/g, '').length) {
+        document.getElementById(event.target.id).click()
+      } else {
+        console.log('Item Keyup:', String(event.key))
+      }
+      // console.log('$el:', document.getElementById(event.target.id).blur)
+    },
     itemComponentLostFocus(props, event) {
       console.log('blurItemCell :', JSON.stringify(props))
     },
     getSlotName(name) {
       return 'item.' + name
+    },
+    // ! Events
+    vOnBindings(events = [], header, props) {
+      // const arr = events
+      const hash = Object.fromEntries(
+        events.map((e) => [e.name, e.callback.bind(this, header, props)])
+      )
+      return hash
     },
     // ! Filtering
     // eslint-disable-next-line spaced-comment
@@ -326,12 +289,18 @@ export default {
       return filteredItems
     },
     filterColumnString(items, column, operator, value) {
-      return items.filter((item) =>
-        item[column.value]
-          .toString()
-          .toLowerCase()
-          .includes(value.toString().toLowerCase())
-      )
+      return items.filter((item) => {
+        if (operator.value === 'equale') {
+          return this.compareStringIsEquales(item[column.value], value)
+        } else if (operator.value === 'not-equale') {
+          return !this.compareStringIsEquales(item[column.value], value)
+        } else if (operator.value === 'contains') {
+          return this.compareStringIsContains(item[column.value], value)
+        } else if (operator.value === 'not-contains') {
+          return !this.compareStringIsContains(item[column.value], value)
+        }
+        return true
+      })
     },
     filterColumnNumber(items, column, operator, value) {
       return items.filter((item) => {
@@ -383,6 +352,15 @@ export default {
       }
       return false
     },
+    compareStringIsEquales(item, value) {
+      return item.toString().toLowerCase() === value.toString().toLowerCase()
+    },
+    compareStringIsContains(item, value) {
+      return item
+        .toString()
+        .toLowerCase()
+        .includes(value.toString().toLowerCase())
+    },
     // eslint-disable-next-line spaced-comment
     //#endregion
   },
@@ -395,5 +373,8 @@ export default {
 }
 .tr-no-hover:hover {
   background-color: transparent !important;
+}
+.v-small-dialog__activator__content {
+  display: initial;
 }
 </style>

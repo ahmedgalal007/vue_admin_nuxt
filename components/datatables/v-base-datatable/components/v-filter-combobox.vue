@@ -155,6 +155,7 @@ export default {
     },
     Operators() {
       return [
+        { text: 'contains', value: 'contains', types: [String] },
         { text: '=', value: 'equale', types: [String, Number, Date, Boolean] },
         {
           text: '!=',
@@ -163,7 +164,6 @@ export default {
         },
         { text: '>', value: 'greater-than', types: [Number, Date] },
         { text: '<', value: 'less-than', types: [Number, Date] },
-        { text: 'contains', value: 'contains', types: [String] },
         { text: '!contains', value: 'not-contains', types: [String] },
       ]
     },

@@ -34,9 +34,29 @@ export default {
               'single-line': true,
               'hide-details': true,
             },
-            on: {
-              blur: this.itemComponentBlur,
+            on: [
+              {
+                name: 'blur',
+                callback: this.itemComponentBlur,
+              },
+            ],
+          },
+          footer: {
+            vType: 'v-text-field',
+            attrs: {
+              'single-line': true,
+              'hide-details': true,
+              dense: true,
+              value: 2220,
+              outlined: true,
             },
+            on: [
+              {
+                name: 'blur',
+                callback: this.itemComponentBlur,
+              },
+            ],
+            value: '',
           },
         },
         {
@@ -52,6 +72,34 @@ export default {
               'hide-details': true,
               type: 'number',
             },
+            on: [
+              {
+                name: 'change',
+                callback: this.itemComponentBlur,
+              },
+            ],
+          },
+          footer: {
+            vType: 'v-text-field',
+            attrs: {
+              'single-line': true,
+              'hide-details': true,
+              dense: true,
+              value: 2220,
+              outlined: true,
+            },
+            on: [
+              {
+                name: 'blur',
+                callback: (header, props, $event) => {
+                  console.log('Event:', $event)
+                  console.log('EVENT-Target:', $event.target)
+                  console.log('HEADER:', header)
+                  console.log('PROPS:', props)
+                },
+              },
+            ],
+            value: 'Normal <P>',
           },
         },
         {
@@ -68,9 +116,12 @@ export default {
               key: this.componentKey,
               type: 'boolean',
             },
-            on: {
-              keyup: this.checkboxKeyup,
-            },
+            on: [
+              {
+                name: 'change',
+                callback: this.checkboxChange,
+              },
+            ],
           },
         },
         {
@@ -143,19 +194,15 @@ export default {
     this.setLoading(false)
   },
   methods: {
-    itemComponentBlur(props, event) {
+    itemComponentBlur(header, props, event) {
+      console.log('Item Event:', event)
+      console.log('Item Header:', header)
       console.log('Item Props:', JSON.stringify(props))
     },
-    checkboxKeyup(props, event) {
-      if (event.key === 'Enter') {
-        NaN()
-      } else if (!event.key.replace(/\s/g, '').length) {
-        document.getElementById(event.target.id).click()
-      } else {
-        console.log('Item Keyup:', String(event.key))
-      }
-      // console.log('keyCode:', event.keyCode)
-      // console.log('$el:', document.getElementById(event.target.id).blur)
+    checkboxChange(header, props, event) {
+      console.log('HEADER:', header)
+      console.log('PROPS:', props)
+      console.log('VALUE:', event)
     },
     ...mapActions(['setLoading']),
   },

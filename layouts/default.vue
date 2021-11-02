@@ -3,8 +3,8 @@
     <v-admin-navigation-drawer
       ref="navDrawer"
       :drawer="getDrawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      :mini-variant="getPinned"
+      :clipped="getClipped"
       :right="!right"
     ></v-admin-navigation-drawer>
     <v-app-bar
@@ -15,8 +15,15 @@
       class="white--text font-weight-thin"
       color="primary"
       dark
+      :extended="false"
+      extension-height="40"
     >
-      <v-app-bar-nav-icon @click.stop="toggelDrawer" />
+      <!-- v-app-bar-nav-icon @click.stop="toggelDrawer" /-->
+      <v-btn icon @click.stop="toggelDrawer">
+        <v-icon>
+          {{ `mdi-backburger ${getDrawer ? ' mdi-flip-h' : ''}` }}
+        </v-icon>
+      </v-btn>
       <v-btn v-if="$vuetify.breakpoint.lgAndUp" icon @click.stop="toggelPinned">
         <!--v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon-->
         <v-icon
@@ -26,9 +33,12 @@
       <v-btn
         v-if="$vuetify.breakpoint.lgAndUp"
         icon
-        @click.stop="clipped = !clipped"
+        @click.stop="toggelClipped"
       >
-        <v-icon>mdi-application</v-icon>
+        <v-icon>
+          mdi-arrow-collapse-up
+          {{ `${!getClipped ? 'mdi-flip-v' : ''}` }}</v-icon
+        >
       </v-btn>
       <v-btn icon @click.stop="changeRTL(!$vuetify.rtl)">
         <v-icon
@@ -125,13 +135,19 @@ export default {
     getClipped() {
       return this.clipped
     },
+    getPinned() {
+      return this.miniVariant
+    },
   },
   methods: {
     toggelDrawer() {
-      this.$refs.navDrawer.toggelDrawer()
+      this.drawer = this.$refs.navDrawer.toggelDrawer()
     },
     toggelPinned() {
       this.miniVariant = this.$refs.navDrawer.toggelPinned()
+    },
+    toggelClipped() {
+      this.clipped = this.$refs.navDrawer.toggelClipped()
     },
     toggelRightDrawer() {
       this.miniVariant = this.$refs.rightDrawer.toggelRightDrawer()
