@@ -71,5 +71,18 @@ export default {
         .toLowerCase()
         .includes(value.toString().toLowerCase())
     },
+
+    IsLastCell(itemprops, headers, items) {
+      console.log('PROPS:', itemprops)
+      console.log('HEADERS:', headers)
+      console.log('ITEMS:', items)
+      if (itemprops.header.value === headers[headers.length - 1].value) {
+        if (items.length === itemprops.index + 1) {
+          console.log('last cell')
+          return true
+        }
+      }
+      return false
+    },
   },
 }

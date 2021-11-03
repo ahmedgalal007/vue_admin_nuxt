@@ -5,7 +5,7 @@
       :loading="getLoading"
       :items="items"
       :headers="headers"
-      :table-options="{ groupBy: [], itemsPerPage: 5 }"
+      :table-options="{ groupBy: [], itemsPerPage: -1 }"
     >
     </v-base-datatable>
   </div>
@@ -23,6 +23,7 @@ export default {
         {
           text: 'Name',
           value: 'name',
+          default: 'tst',
           align: 'start',
           sortable: false,
           groupable: false,

@@ -19,15 +19,15 @@
     :calculate-widths="false"
   >
     <!-- eslint-disable-next-line -->
-    <template v-slot:body="{ items }" v-if="getLoading">
+    <template v-slot:body="{ entries }" v-if="getLoading">
       <tbody
         :style="{ height: '100%', border: 'none' }"
         class="text-center ma-auto"
       >
-        <tr v-for="(item, i) in items" :key="i" class="tr-no-hover">
+        <tr v-for="(item, i) in entries" :key="i" class="tr-no-hover">
           <td
             v-if="i === 0"
-            :rowspan="items.length"
+            :rowspan="entries.length"
             :colspan="headers.length"
             style="border: none"
           >
@@ -99,6 +99,7 @@
             v-bind="field.component.attrs"
             v-on="vOnBindings(field.component.on, field, props)"
             @keyup.native="checkboxKeyup($event)"
+            @keydown.tab.native="appendRow(field, props, $event)"
           ></component>
           <component
             :is="field.component.vType"
@@ -106,6 +107,7 @@
             v-model="props.item[field.value]"
             v-bind="field.component.attrs"
             v-on="vOnBindings(field.component.on, field, props)"
+            @keydown.tab.native="appendRow(field, props, $event)"
           >
           </component>
         </template>
@@ -183,6 +185,7 @@ export default {
   },
   data() {
     return {
+      entries: this.items,
       filters: [],
     }
   },
@@ -242,15 +245,51 @@ export default {
       )
       return hash
     },
+    appendRow(header, props, $event) {
+      console.log('appendRow -> ', 'EVENT: => ', $event)
+      if (this.IsLastCell(props, this.headers, this.entries)) {
+        const row = this.generateNewRow(this.headers) // this.items.slice(-1)[0]
+
+        this.entries = [...this.entries, row]
+        console.log('New Row', this.model)
+        // document.getElementById($event.target.id).focus()
+        $event.target.focus()
+      }
+      return false
+    },
+    generateNewRow(headers) {
+      const row = {}
+      row.id = null
+      headers.map((o) => {
+        if (o.default) {
+          row[o.value] = o.default
+        } else {
+          switch (o.type) {
+            case Boolean:
+              row[o.value] = false
+              break
+            case Number:
+              row[o.value] = 0
+              break
+            case Date:
+              row[o.value] = '1900-01-01'
+              break
+            default:
+              row[o.value] = ''
+              break
+          }
+        }
+        return null
+      })
+      return row
+    },
     // ! Filtering
-    // eslint-disable-next-line spaced-comment
-    //#region Filtering
     setFilters(model) {
       this.filters = model
     },
     filterDatatable() {
       console.log('Filter-Model:', this.getFilters)
-      let filteredItems = [...this.items]
+      let filteredItems = [...this.entries]
       this.getFilters.map((o) => {
         console.log('Filter-Column:', o)
         if (o.column.type === String) {
@@ -292,9 +331,6 @@ export default {
       console.log('Filtered-Items', filteredItems)
       return filteredItems
     },
-
-    // eslint-disable-next-line spaced-comment
-    //#endregion
   },
 }
 </script>
