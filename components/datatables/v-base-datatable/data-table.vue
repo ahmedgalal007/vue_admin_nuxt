@@ -154,11 +154,15 @@
 </template>
 
 <script>
+import filterArrayColumn from '../mixins/filterArrayColumn'
+
 import VDataTableDatePicker from './components/v-data-table-date-picker.vue'
 import vFilterCombobox from './components/v-filter-combobox.vue'
+
 export default {
   name: 'VBaseDatatable',
   components: { vFilterCombobox, VDataTableDatePicker },
+  mixins: [filterArrayColumn],
   props: {
     loading: {
       type: Boolean,
@@ -252,32 +256,32 @@ export default {
         if (o.column.type === String) {
           filteredItems = this.filterColumnString(
             filteredItems,
-            o.column,
-            o.operator,
+            o.column.value,
+            o.operator.value,
             o.text
           )
           return true
         } else if (o.column.type === Number) {
           filteredItems = this.filterColumnNumber(
             filteredItems,
-            o.column,
-            o.operator,
+            o.column.value,
+            o.operator.value,
             o.text
           )
           return true
         } else if (o.column.type === Date) {
           filteredItems = this.filterColumnDate(
             filteredItems,
-            o.column,
-            o.operator,
+            o.column.value,
+            o.operator.value,
             o.text
           )
           return true
         } else if (o.column.type === Boolean) {
           filteredItems = this.filterColumnBoolean(
             filteredItems,
-            o.column,
-            o.operator,
+            o.column.value,
+            o.operator.value,
             o.text
           )
           return true
@@ -288,79 +292,7 @@ export default {
       console.log('Filtered-Items', filteredItems)
       return filteredItems
     },
-    filterColumnString(items, column, operator, value) {
-      return items.filter((item) => {
-        if (operator.value === 'equale') {
-          return this.compareStringIsEquales(item[column.value], value)
-        } else if (operator.value === 'not-equale') {
-          return !this.compareStringIsEquales(item[column.value], value)
-        } else if (operator.value === 'contains') {
-          return this.compareStringIsContains(item[column.value], value)
-        } else if (operator.value === 'not-contains') {
-          return !this.compareStringIsContains(item[column.value], value)
-        }
-        return true
-      })
-    },
-    filterColumnNumber(items, column, operator, value) {
-      return items.filter((item) => {
-        console.log(
-          'Number-Filter:',
-          parseFloat(item[column.value], 10),
-          ' - ',
-          parseFloat(value, 10)
-        )
-        if (!isNaN(value) || !isNaN(item[column.value])) {
-          return this.compareItemIsEqualeGreaterLess(
-            parseFloat(item[column.value], 10),
-            operator,
-            parseFloat(value, 10)
-          )
-        }
-        return false
-      })
-    },
-    filterColumnDate(items, column, operator, value) {
-      return items.filter((item) =>
-        this.compareItemIsEqualeGreaterLess(item[column.value], operator, value)
-      )
-    },
-    filterColumnBoolean(items, column, operator, value) {
-      const isTrue = (val) => val === true || val === 'true' || val === 1
 
-      return items.filter((item) => {
-        if (isTrue(value) && isTrue(item[column.value])) {
-          if (operator.value === 'equale') {
-            return isTrue(item[column.value]) === isTrue(value)
-          } else if (operator.value === 'not-equale') {
-            return isTrue(item[column.value]) !== isTrue(value)
-          }
-        }
-        return false
-      })
-    },
-    compareItemIsEqualeGreaterLess(item, operator, value) {
-      if (operator.value === 'equale') {
-        return item === value
-      } else if (operator.value === 'not-equale') {
-        return item !== value
-      } else if (operator.value === 'greater-than') {
-        console.log(operator.value, ' - ', item, ' - ', value)
-        return item > value
-      } else if (operator.value === 'less-than') {
-        return item < value
-      }
-      return false
-    },
-    compareStringIsEquales(item, value) {
-      return item.toString().toLowerCase() === value.toString().toLowerCase()
-    },
-    compareStringIsContains(item, value) {
-      return item
-        .toString()
-        .toLowerCase()
-        .includes(value.toString().toLowerCase())
-    },
     // eslint-disable-next-line spaced-comment
     //#endregion
   },
