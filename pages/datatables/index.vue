@@ -2,6 +2,7 @@
   <div>
     <v-switch @change="(e) => setLoading(e)"> </v-switch>
     <v-base-datatable
+      ref="dt"
       :loading="getLoading"
       :items="items"
       :headers="headers"
@@ -75,7 +76,7 @@ export default {
             },
             on: [
               {
-                name: 'change',
+                name: 'blur',
                 callback: this.itemComponentBlur,
               },
             ],
@@ -196,14 +197,15 @@ export default {
   },
   methods: {
     itemComponentBlur(header, props, event) {
-      console.log('Item Event:', event)
-      console.log('Item Header:', header)
-      console.log('Item Props:', JSON.stringify(props))
+      // console.log('Item Event:', event)
+      // console.log('Item Header:', header)
+      // console.log('Item Props:', JSON.stringify(props))
+      // console.log('CURRENT ITEM:', this.$refs.dt.currentItem.val)
     },
     checkboxChange(header, props, event) {
-      console.log('HEADER:', header)
-      console.log('PROPS:', props)
-      console.log('VALUE:', event)
+      // console.log('HEADER:', header)
+      // console.log('PROPS:', props)
+      // console.log('VALUE:', event)
     },
     ...mapActions(['setLoading']),
   },

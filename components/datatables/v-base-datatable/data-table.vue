@@ -99,7 +99,9 @@
             v-bind="field.component.attrs"
             v-on="vOnBindings(field.component.on, field, props)"
             @keyup.native="checkboxKeyup($event)"
-            @keydown.tab.native="appendRow(field, props, $event)"
+            @keydown.tab.native="onBlurCell(field, props, $event)"
+            @focus="onFocusCell(field, props, $event)"
+            @load="onLoadCell(field, props, $event)"
           ></component>
           <component
             :is="field.component.vType"
@@ -107,7 +109,9 @@
             v-model="props.item[field.value]"
             v-bind="field.component.attrs"
             v-on="vOnBindings(field.component.on, field, props)"
-            @keydown.tab.native="appendRow(field, props, $event)"
+            @keydown.tab.native="onBlurCell(field, props, $event)"
+            @focus="onFocusCell(field, props, $event)"
+            @load="onLoadCell(field, props, $event)"
           >
           </component>
         </template>
@@ -128,7 +132,7 @@
     <template v-slot:body.append="props">
       <tr>
         <td v-for="h in props.headers" :key="h.value">
-          <div v-if="h.value === 'data-table-select'">SS</div>
+          <div v-if="h.value === 'data-table-select'"></div>
           <template v-if="h.footer && h.value !== 'data-table-select'">
             <component
               :is="h.footer.vType"
@@ -185,6 +189,7 @@ export default {
   },
   data() {
     return {
+      currentItem: {},
       entries: this.items,
       filters: [],
     }
@@ -245,13 +250,16 @@ export default {
       )
       return hash
     },
+    onBlurCell(header, props, $event) {
+      this.appendRow(header, props, $event)
+    },
     appendRow(header, props, $event) {
       console.log('appendRow -> ', 'EVENT: => ', $event)
       if (this.IsLastCell(props, this.headers, this.entries)) {
         const row = this.generateNewRow(this.headers) // this.items.slice(-1)[0]
 
         this.entries = [...this.entries, row]
-        console.log('New Row', this.model)
+        console.log('New Row', row)
         // document.getElementById($event.target.id).focus()
         $event.target.focus()
       }
@@ -282,6 +290,16 @@ export default {
         return null
       })
       return row
+    },
+    onLoadCell(field, props, $event) {
+      props.item.input = $event.target.id
+      console.log('DATA_SET:', $event.target.dataset)
+    },
+    onFocusCell(field, props, $event) {
+      this.currentItem = props.item
+      console.log('CURRENT ITEM:', this.currentItem)
+      console.log('DATA_SET:', $event.target.dataset)
+      console.log('INPUT:', props.item)
     },
     // ! Filtering
     setFilters(model) {
