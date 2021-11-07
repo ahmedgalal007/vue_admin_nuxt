@@ -196,7 +196,7 @@ export default {
   },
   computed: {
     getLoading() {
-      console.log('this.loading:', this.loading)
+      // console.log('this.loading:', this.loading)
       return this.loading
     },
     getHeaders() {
@@ -228,16 +228,16 @@ export default {
     open: () => ({}),
     close: () => ({}),
     checkboxKeyup(event) {
-      console.log('KEYUP:', event)
+      // console.log('KEYUP:', event)
       if (event.key === 'Enter' || !event.key.replace(/\s/g, '').length) {
         document.getElementById(event.target.id).click()
       } else {
-        console.log('Item Keyup:', String(event.key))
+        // console.log('Item Keyup:', String(event.key))
       }
       // console.log('$el:', document.getElementById(event.target.id).blur)
     },
     itemComponentLostFocus(props, event) {
-      console.log('blurItemCell :', JSON.stringify(props))
+      // console.log('blurItemCell :', JSON.stringify(props))
     },
     getSlotName(name) {
       return 'item.' + name
@@ -254,12 +254,12 @@ export default {
       this.appendRow(header, props, $event)
     },
     appendRow(header, props, $event) {
-      console.log('appendRow -> ', 'EVENT: => ', $event)
+      // console.log('appendRow -> ', 'EVENT: => ', $event)
       if (this.IsLastCell(props, this.headers, this.entries)) {
         const row = this.generateNewRow(this.headers) // this.items.slice(-1)[0]
 
         this.entries = [...this.entries, row]
-        console.log('New Row', row)
+        // console.log('New Row', row)
         // document.getElementById($event.target.id).focus()
         $event.target.focus()
       }
@@ -293,23 +293,23 @@ export default {
     },
     onLoadCell(field, props, $event) {
       props.item.input = $event.target.id
-      console.log('DATA_SET:', $event.target.dataset)
+      // console.log('DATA_SET:', $event.target.dataset)
     },
     onFocusCell(field, props, $event) {
       this.currentItem = props.item
-      console.log('CURRENT ITEM:', this.currentItem)
-      console.log('DATA_SET:', $event.target.dataset)
-      console.log('INPUT:', props.item)
+      // console.log('CURRENT ITEM:', this.currentItem)
+      // console.log('DATA_SET:', $event.target.dataset)
+      // console.log('INPUT:', props.item)
     },
     // ! Filtering
     setFilters(model) {
       this.filters = model
     },
     filterDatatable() {
-      console.log('Filter-Model:', this.getFilters)
+      // console.log('Filter-Model:', this.getFilters)
       let filteredItems = [...this.entries]
       this.getFilters.map((o) => {
-        console.log('Filter-Column:', o)
+        // console.log('Filter-Column:', o)
         if (o.column.type === String) {
           filteredItems = this.filterColumnString(
             filteredItems,
@@ -346,7 +346,7 @@ export default {
           return false
         }
       })
-      console.log('Filtered-Items', filteredItems)
+      // console.log('Filtered-Items', filteredItems)
       return filteredItems
     },
   },

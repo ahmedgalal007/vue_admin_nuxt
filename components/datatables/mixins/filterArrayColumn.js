@@ -16,12 +16,6 @@ export default {
     },
     filterColumnNumber(items, column, operator, value) {
       return items.filter((item) => {
-        console.log(
-          'Number-Filter:',
-          parseFloat(item[column], 10),
-          ' - ',
-          parseFloat(value, 10)
-        )
         if (!isNaN(value) || !isNaN(item[column])) {
           return this.compareItemIsEqualeGreaterLess(
             parseFloat(item[column], 10),
@@ -73,12 +67,8 @@ export default {
     },
 
     IsLastCell(itemprops, headers, items) {
-      console.log('PROPS:', itemprops)
-      console.log('HEADERS:', headers)
-      console.log('ITEMS:', items)
       if (itemprops.header.value === headers[headers.length - 1].value) {
         if (items.length === itemprops.index + 1) {
-          console.log('last cell')
           return true
         }
       }
