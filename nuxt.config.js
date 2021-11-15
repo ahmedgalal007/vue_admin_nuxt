@@ -1,5 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
-
+import hooks from './hooks'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -14,6 +14,7 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  hooks: hooks(this),
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
@@ -22,6 +23,7 @@ export default {
     '~plugins/global-components',
     '~/plugins/axios',
     { src: '~/plugins/vee-validate.js', ssr: true },
+    { src: '~/plugins/vueOidcClientNuxtAuth', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,6 +41,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // '@nuxtjs/proxy',
+    // '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
@@ -50,10 +54,73 @@ export default {
         /* module options */
       },
     ],
+    [
+      '~/modules/ids4-oidc-client/module.js',
+      {
+        /* module options */
+      },
+    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    // baseURL: 'http://127.0.0.1:3333/api',
+    // baseURL: 'https://localhost:5000/',
+    // proxy: true,
+  },
+
+  proxy: {
+    // '/api/': {
+    //   target: 'https://localhost:44310/',
+    //   pathRewrite: { '^/api/': '' },
+    //   changeOrigin: true,
+    // },
+  },
+
+  // Auth module configurations
+  // auth: {
+  //   strategies: {
+  //     // local: {
+  //     //   endpoints: {
+  //     //     login: { url: 'login', method: 'post', propertyName: 'data.token' },
+  //     //     user: { url: 'me', method: 'get', propertyName: 'data' },
+  //     //     logout: false,
+  //     //   },
+  //     // },
+  //     local: {
+  //       scheme: 'oauth2', // `_scheme` is now `scheme`
+  //       client_id: 'vue.admin.nuxt',
+  //       scope: 'openid profile email',
+
+  //       user: {
+  //         property: false, // `user` property is now `user.property`
+  //         autoFetch: true,
+  //       },
+  //       endpoints: {
+  //         authorization: 'https://localhost:44310/connect/authorize',
+  //         token: undefined,
+  //         redirect_uri: 'http://localhost:5000/login',
+  //         userInfo: 'https://localhost:44310/connect/userinfo',
+  //         logout: false, // 'https://localhost:44310/logout',
+  //       },
+  //       token: {
+  //         property: 'access_token',
+  //         type: 'Bearer',
+  //         maxAge: 1800,
+  //       },
+  //       refreshToken: {
+  //         property: 'refresh_token',
+  //         maxAge: 60 * 60 * 24 * 30,
+  //       },
+  //       responseType: 'token',
+  //       grantType: 'authorization_code',
+  //       // accessType: undefined,
+  //     },
+  //     // oidcClient: {
+  //     //   scheme: '~/schemes/oidcClient',
+  //     // },
+  //   },
+  // },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -123,4 +190,11 @@ export default {
     },
   },
   server: { port: 5000 },
+
+  router: {
+    // middleware: ['auth'],
+    // middleware: ['vuex-oidc-router'],
+    // middleware: 'vueOidcClientNuxtAuthMiddleware'
+    middleware: 'vueOidcClientNuxtAuth',
+  },
 }

@@ -10,7 +10,9 @@
       <v-btn
         dark
         color="success darken-2"
-        @click="opensnakbar('Open From Footer', 1000)"
+        @click="
+          setSnackbar({ opened: true, text: 'Open From Footer', timeout: 1500 })
+        "
       >
         Open Snackbar
       </v-btn>
@@ -19,14 +21,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'VAdminFooter',
-  props: { opensnakbar: { type: Function, default: (message, timeout) => {} } },
+  // props: { opensnakbar: { type: Function, default: (message, timeout) => {} } },
   data() {
     return {
       fixed: false,
       counter: 0,
     }
+  },
+  methods: {
+    ...mapActions(['setSnackbar']),
+    showSnackbar(opened, text, timeout) {
+      this.setSnackbar({ opened, text, timeout: 0 })
+      setTimeout(() => {
+        this.setSnackbar({ opened: false, text: '', timeout: 0 })
+      }, timeout)
+    },
   },
 }
 </script>

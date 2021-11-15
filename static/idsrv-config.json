@@ -1,0 +1,6 @@
+{
+  "authority": "https://localhost:44310",
+  "client_id": "vue.admin.nuxt",
+  "response_type": "code",
+  "scope": "openid profile email"
+}

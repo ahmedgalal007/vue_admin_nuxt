@@ -85,16 +85,21 @@
       :right-drawer="rightDrawer"
       :right="right"
     ></v-admin-right-drawer>
-    <v-admin-footer :opensnakbar="openSnakbar"></v-admin-footer>
+    <v-admin-footer></v-admin-footer>
     <v-snackbar
-      v-model="snackbar"
-      :timeout="timeout"
+      v-model="getSnackbar.opened"
+      :timeout="getSnackbar.timeout"
       :right="$vuetify.breakpoint.lgAndUp"
     >
       {{ text }}
 
       <template #action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="setSnackbar({ opened: false, text: '', timeout: 0 })"
+        >
           Close
         </v-btn>
       </template>
@@ -103,10 +108,14 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+// import idsrvAuth from '../idsrvAuth'
 import VAdminNavigationDrawer from './default/v-admin-navigation-drawer.vue'
 import VAdminFooter from './default/v-admin-footer.vue'
 import VLanguageMenu from './default/v-language-menu.vue'
 import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
+// import idsrvAuth from '~/idsrvAuth'
+
 export default {
   components: {
     VAdminNavigationDrawer,
@@ -114,6 +123,7 @@ export default {
     VLanguageMenu,
     VAdminRightDrawer,
   },
+  middleware: ['vueOidcClientNuxtAuth'],
   data() {
     return {
       miniVariant: true,
@@ -129,6 +139,11 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getLoading', 'getSnackbar']),
+    // ...mapGetters('oidc', ['oidcIsAuthenticated']),
+    // hasAccess() {
+    //   return this.oidcIsAuthenticated || this.oidcIsRoutePublic(this.$route)
+    // },
     getDrawer() {
       return this.drawer
     },
@@ -139,7 +154,21 @@ export default {
       return this.miniVariant
     },
   },
+  mounted() {
+    // window.addEventListener('vuexoidc:userLoaded', this.userLoaded)
+  },
+  destroyed() {
+    // window.removeEventListener('vuexoidc:userLoaded', this.userLoaded)
+  },
   methods: {
+    // ...mapGetters('oidc', ['oidcIsRoutePublic']),
+    // // eslint-disable-next-line object-shorthand
+    // userLoaded: function (e) {
+    //   console.log(
+    //     'I am listening to the user loaded event in vuex-oidc',
+    //     e.detail
+    //   )
+    // },
     toggelDrawer() {
       this.drawer = this.$refs.navDrawer.toggelDrawer()
     },
@@ -168,6 +197,7 @@ export default {
       console.log('Dark:', this.$vuetify.theme.dark)
       console.log('Light:', this.$vuetify.theme.light)
     },
+    ...mapActions(['setLoading', 'setSnackbar']),
   },
 }
 </script>
