@@ -79,3 +79,13 @@
     </v-col>
   </v-row>
 </template>
+
+<script>
+export default {
+  middleware: ['auth'],
+  auth: false,
+  mounted() {
+    console.log('$auth', this.$auth.user)
+  },
+}
+</script>

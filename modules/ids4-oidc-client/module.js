@@ -1,5 +1,4 @@
-// import Vue from 'vue'
-// import { UserManager, User, WebStorageStateStore } from 'oidc-client'
+// import path from 'path'
 
 const consoleObjectKeys = (obj) => {
   for (const [key, value] of Object.entries(obj)) {
@@ -7,11 +6,17 @@ const consoleObjectKeys = (obj) => {
   }
 }
 
+// path.resolve(__dirname, 'plugin.js')
+
 export default function (moduleOptions) {
   const { nuxt } = this
   consoleObjectKeys(this)
   this.extendRoutes((routes) => {
     // idsrvAuth.useRouter(routes)
+  })
+
+  nuxt.hook('render:routeDone', (url, result, context) => {
+    // Called after the renderer was created
   })
 
   nuxt.hook('listen', (nuxt) => {

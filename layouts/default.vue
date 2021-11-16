@@ -70,6 +70,9 @@
       </v-switch>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-btn icon @click.stop="$auth.logout()"
+        ><v-icon>mdi-logout</v-icon></v-btn
+      >
       <v-language-menu></v-language-menu>
       <v-btn icon @click.stop="toggelRightDrawer">
         <v-icon>mdi-menu</v-icon>

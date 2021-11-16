@@ -47,6 +47,17 @@ export const mutations = {
 }
 
 export const actions = {
+  nuxtServerInit({ state, dispatch }) {
+    // const { accessToken } = state.oauth
+    console.log('state.oauth', state.oauth)
+    // if (accessToken) {
+    //   console.log('nuxtServerInit logged in')
+    //   const success = await dispatch('auth/convertToken', accessToken)
+    //   console.log(' nuxtServerInit success', success)
+    // } else {
+    //   console.log('not logged in')
+    // }
+  },
   // ! Passing context object {state, commit, dispatch }
   setLoading({ state, commit, dispatch }, Enabled) {
     commit('SET_LOADING', Enabled)
@@ -60,9 +71,6 @@ export const actions = {
     setTimeout(() => {
       commit('SET_SNACKBAR', { opened: false, text: '', timeout: 0 })
     }, Snackbar.timeout)
-  },
-  async nuxtServerInit({ dispatch }) {
-    await dispatch('setLoading', true)
   },
 }
 

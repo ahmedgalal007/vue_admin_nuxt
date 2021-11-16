@@ -33,6 +33,7 @@
                 <validation-provider
                   v-slot="{ errors }"
                   name="password"
+                  autocomplete
                   :rules="{
                     required: true,
                     max: 12,
@@ -85,6 +86,13 @@
             @click.prevent="oidclogin"
             >Identity Server Login</v-btn
           >
+          <v-btn
+            color="error"
+            block
+            title="Identity Server"
+            @click.prevent="authlogin"
+            >social Login</v-btn
+          >
         </v-col>
       </v-row>
     </validation-observer>
@@ -92,7 +100,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import { mapActions } from 'vuex'
 import {
   required,
@@ -109,7 +117,7 @@ import {
   setInteractionMode,
 } from 'vee-validate'
 
-import { UserManager, WebStorageStateStore } from 'oidc-client'
+// import { UserManager, WebStorageStateStore } from 'oidc-client'
 
 setInteractionMode('eager')
 
@@ -149,8 +157,12 @@ export default {
     ValidationObserver,
   },
   layout: 'empty2',
+
+  middleware: ['auth'],
+  auth: false,
+
   data: () => ({
-    userMgr: null,
+    // userMgr: null,
     userName: '',
     password: '',
     showPassword: false,
@@ -161,31 +173,18 @@ export default {
   }),
   created() {
     if (!process.server) {
-      this.userMgr = new UserManager({
-        authority: 'https://localhost:44310',
-        client_id: 'vue.admin.nuxt',
-        redirect_uri: 'http://localhost:5000/login/callback',
-        response_type: 'code',
-        scope: 'openid profile email',
-        loadUserInfo: true,
-        post_logout_redirect_uri: 'http://localhost:5000',
-        silent_redirect_uri: 'http://localhost:5000',
-        // eslint-disable-next-line nuxt/no-globals-in-created
-        userStore: new WebStorageStateStore({ store: window.localStorage }),
-      })
-
-      const { code, scope, state } = this.$route.query
-      const sessionState = this.$route.query.session_state
-      // debugger
-      if (code && scope && sessionState && state) {
-        this.userMgr.signinRedirectCallback()
-        // .then((user) => {
-        //   console.log('USER:', user)
-        //   // this.$auth.setUser(user)
-        //   this.$router.push('/')
-        //   this.setSnackbar({ opened: true, text: 'Logged In!', timeout: 2000 })
-        // })
-      }
+      // this.userMgr = new UserManager({
+      //   authority: 'https://localhost:44310',
+      //   client_id: 'vue.admin.nuxt',
+      //   redirect_uri: 'http://localhost:5000/login/callback',
+      //   response_type: 'code',
+      //   scope: 'openid profile email',
+      //   loadUserInfo: true,
+      //   post_logout_redirect_uri: 'http://localhost:5000',
+      //   silent_redirect_uri: 'http://localhost:5000',
+      //   // eslint-disable-next-line nuxt/no-globals-in-created
+      //   userStore: new WebStorageStateStore({ store: window.localStorage }),
+      // })
     }
   },
   methods: {
@@ -215,17 +214,20 @@ export default {
       // return this.$auth
       //   .loginWith('local')
       //   .then((respone) => console.log('response', respone))
-      return this.userMgr.signinRedirect().then((usr) => {
-        Vue.prototype.$oidc = { userManager: this.userMgr, user: usr }
-        console.log('Vue.prototype.$oidc', Vue.prototype.$oidc)
+      return this.$auth.signinRedirect().then((usr) => {
+        // Vue.prototype.$oidc.mgr = this.$oidc.mgr
+        // Vue.prototype.$oidc.user = usr
+        // Vue.prototype.$oidc.isAuthenticated = true
+        console.log('$auth_callback', this.$auth)
+        // Vue.prototype.$oidc = { userManager: this.userMgr, user: usr }
+        // console.log('Vue.prototype.$oidc', Vue.prototype.$oidc)
       })
     },
     async authlogin() {
       try {
         await this.$auth.logout('local')
-        await this.$auth
-          .loginWith('oidc')
-          .then(() => this.$toast.success('Logged In!'))
+        await this.$auth.loginWith('social')
+        // .then(() => this.$toast.success('Logged In!'))
       } catch (e) {
         this.error = e.response.data.message
         console.log('ERROR:', this.error)
