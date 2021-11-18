@@ -13,3 +13,12 @@
     </v-col>
   </v-row>
 </template>
+<script>
+import { mapActions } from 'vuex'
+export default {
+  middleware: ['auth-guard'],
+  computed: {
+    ...mapActions(['setSnackbar']),
+  },
+}
+</script>

@@ -127,6 +127,7 @@ export default {
       callback: '/login/callback/',
       logout: '/signed-out',
       logoutRedirectUri: '/login',
+      home: '/',
     },
   },
 

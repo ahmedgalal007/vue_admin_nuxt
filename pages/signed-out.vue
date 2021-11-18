@@ -3,15 +3,27 @@
     <v-col cols="2"></v-col>
     <v-col cols="8" align-self="center">
       <h1 class="">You have been signed out!</h1>
-      <v-btn
-        icon
-        large
-        color="error"
-        @click="$router.push('localhost:44310/Account/Logout')"
+      <client-only>
+        <v-btn
+          icon
+          large
+          color="error"
+          @click="window.location = 'https://localhost:44310/Account/Logout'"
+        >
+          <v-icon>mdi-logout</v-icon>
+        </v-btn></client-only
       >
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
     </v-col>
     <v-col cols="2"></v-col>
   </v-row>
 </template>
+<script>
+export default {
+  created() {
+    if (process.browser) {
+      // eslint-disable-next-line nuxt/no-globals-in-created
+      window.location.href = 'https://localhost:44310/Account/Logout'
+    }
+  },
+}
+</script>

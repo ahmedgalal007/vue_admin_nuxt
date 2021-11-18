@@ -11,7 +11,12 @@
         dark
         color="success darken-2"
         @click="
-          setSnackbar({ opened: true, text: 'Open From Footer', timeout: 1500 })
+          setSnackbar({
+            showing: true,
+            text: 'Open From Footer',
+            timeout: 5000,
+            color: 'blue',
+          })
         "
       >
         Open Snackbar
@@ -32,13 +37,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setSnackbar']),
-    showSnackbar(opened, text, timeout) {
-      this.setSnackbar({ opened, text, timeout: 0 })
-      setTimeout(() => {
-        this.setSnackbar({ opened: false, text: '', timeout: 0 })
-      }, timeout)
-    },
+    ...mapActions('snackbar', ['setSnackbar']),
   },
 }
 </script>

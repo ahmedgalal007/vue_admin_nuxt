@@ -70,9 +70,11 @@
       </v-switch>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn icon @click.stop="$auth.logout()"
-        ><v-icon>mdi-logout</v-icon></v-btn
-      >
+      <client-only>
+        <v-btn v-if="isAuthenticated" icon @click.stop="$auth.logout()">
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+      </client-only>
       <v-language-menu></v-language-menu>
       <v-btn icon @click.stop="toggelRightDrawer">
         <v-icon>mdi-menu</v-icon>
@@ -89,7 +91,7 @@
       :right="right"
     ></v-admin-right-drawer>
     <v-admin-footer></v-admin-footer>
-    <v-snackbar
+    <!--v-snackbar
       v-model="getSnackbar.opened"
       :timeout="getSnackbar.timeout"
       :right="$vuetify.breakpoint.lgAndUp"
@@ -106,7 +108,9 @@
           Close
         </v-btn>
       </template>
-    </v-snackbar>
+    </v-snackbar-->
+
+    <the-snackbar />
   </v-app>
 </template>
 
@@ -117,6 +121,7 @@ import VAdminNavigationDrawer from './default/v-admin-navigation-drawer.vue'
 import VAdminFooter from './default/v-admin-footer.vue'
 import VLanguageMenu from './default/v-language-menu.vue'
 import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
+import TheSnackbar from '~/components/TheSnackbar.vue'
 // import idsrvAuth from '~/idsrvAuth'
 
 export default {
@@ -125,6 +130,7 @@ export default {
     VAdminFooter,
     VLanguageMenu,
     VAdminRightDrawer,
+    TheSnackbar,
   },
   middleware: ['vueOidcClientNuxtAuth'],
   data() {
@@ -133,16 +139,16 @@ export default {
       clipped: true,
       right: false,
       drawer: true,
-      snackbar: true,
-      text: 'My timeout is set to 2000.',
-      timeout: 2000,
+      // snackbar: true,
+      // text: 'My timeout is set to 2000.',
+      // timeout: 2000,
       rightDrawer: false,
       title: 'Vuetify.js',
       loading5: false,
     }
   },
   computed: {
-    ...mapGetters(['getLoading', 'getSnackbar']),
+    ...mapGetters(['getLoading', 'isAuthenticated', 'loggedInUser']),
     // ...mapGetters('oidc', ['oidcIsAuthenticated']),
     // hasAccess() {
     //   return this.oidcIsAuthenticated || this.oidcIsRoutePublic(this.$route)
@@ -158,6 +164,7 @@ export default {
     },
   },
   mounted() {
+    console.log('isAuthenticated', this.isAuthenticated)
     // window.addEventListener('vuexoidc:userLoaded', this.userLoaded)
   },
   destroyed() {
@@ -190,9 +197,9 @@ export default {
       this.right = !val
     },
     openSnakbar(text, timeout) {
-      this.text = text
-      this.timeout = timeout
-      this.snackbar = true
+      // this.text = text
+      // this.timeout = timeout
+      // this.snackbar = true
     },
     toggleTheme() {
       this.$vuetify.theme.light = !this.$vuetify.theme.dark
@@ -200,7 +207,7 @@ export default {
       console.log('Dark:', this.$vuetify.theme.dark)
       console.log('Light:', this.$vuetify.theme.light)
     },
-    ...mapActions(['setLoading', 'setSnackbar']),
+    ...mapActions(['setLoading', 'snackbar/setSnackbar']),
   },
 }
 </script>

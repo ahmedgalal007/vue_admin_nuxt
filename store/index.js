@@ -1,8 +1,7 @@
+// export const strict = false
 export const state = () => ({
   language: 'en',
   isLoading: false,
-  snackbar: { opened: false, text: '', timeout: 2000 },
-  // auth: { loggedIn: true, user: { id: '123abc', name: 'Ahmed Galal' } },
 })
 
 export const mutations = {
@@ -36,14 +35,6 @@ export const mutations = {
   SET_LANGUAGE(state, lang) {
     state.language = lang
   },
-  /**
-   *
-   * @param {*} state
-   * @param {{opened:boolean,text:string,timeout:number}} snackbar
-   */
-  SET_SNACKBAR(state, snackbar) {
-    state.snackbar = { ...snackbar }
-  },
 }
 
 export const actions = {
@@ -62,16 +53,16 @@ export const actions = {
   setLoading({ state, commit, dispatch }, Enabled) {
     commit('SET_LOADING', Enabled)
   },
-  setSnackbar({ state, commit, dispatch }, Snackbar) {
-    commit('SET_SNACKBAR', {
-      opened: Snackbar.opened,
-      text: Snackbar.text,
-      timeout: 0,
-    })
-    setTimeout(() => {
-      commit('SET_SNACKBAR', { opened: false, text: '', timeout: 0 })
-    }, Snackbar.timeout)
-  },
+  // setSnackbar({ state, commit, dispatch }, Snackbar) {
+  //   commit('SET_SNACKBAR', {
+  //     opened: Snackbar.opened,
+  //     text: Snackbar.text,
+  //     timeout: 0,
+  //   })
+  //   setTimeout(() => {
+  //     commit('SET_SNACKBAR', { opened: false, text: '', timeout: 0 })
+  //   }, Snackbar.timeout)
+  // },
 }
 
 export const getters = {
@@ -83,8 +74,5 @@ export const getters = {
   },
   loggedInUser: (state) => {
     return state.auth.user
-  },
-  getSnackbar: (state) => {
-    return state.snackbar
   },
 }
