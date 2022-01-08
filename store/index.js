@@ -1,6 +1,7 @@
 // export const strict = false
 export const state = () => ({
   language: 'en',
+  rtl:true,
   isLoading: false,
 })
 
@@ -53,16 +54,7 @@ export const actions = {
   setLoading({ state, commit, dispatch }, Enabled) {
     commit('SET_LOADING', Enabled)
   },
-  // setSnackbar({ state, commit, dispatch }, Snackbar) {
-  //   commit('SET_SNACKBAR', {
-  //     opened: Snackbar.opened,
-  //     text: Snackbar.text,
-  //     timeout: 0,
-  //   })
-  //   setTimeout(() => {
-  //     commit('SET_SNACKBAR', { opened: false, text: '', timeout: 0 })
-  //   }, Snackbar.timeout)
-  // },
+
 }
 
 export const getters = {

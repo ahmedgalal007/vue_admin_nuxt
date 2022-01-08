@@ -90,10 +90,10 @@ export default {
       social: {
         scheme: 'oauth2',
         endpoints: {
-          authorization: 'https://localhost:44310/connect/authorize',
-          token: 'https://localhost:44310/connect/token',
+          authorization: 'https://sts.akhbarelyom.com/connect/authorize',
+          token: 'https://sts.akhbarelyom.com/connect/token',
           // redirect_uri: ['http://localhost:5000/login/callback'],
-          userInfo: 'https://localhost:44310/connect/userinfo',
+          userInfo: 'https://sts.akhbarelyom.com/connect/userinfo',
           logout: 'http://localhost:5000/signed-out',
         },
         token: {
@@ -110,7 +110,7 @@ export default {
         accessType: 'offline',
         redirectUri: ['http://localhost:5000/login/callback'],
         logoutRedirectUri: undefined,
-        clientId: 'vue.admin.nuxt',
+        clientId: 'vue_admin_nuxt',
         scope: ['openid', 'profile', 'email', 'roles'],
         state: 'UNIQUE_AND_NON_GUESSABLE',
         codeChallengeMethod: 'S256',

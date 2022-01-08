@@ -15,4 +15,6 @@ export default async function ({ $auth, route, redirect, store }) {
       .dispatch('snackbar/setSnackbar', snackbar)
       .then(() => redirect(REDIRECT_URL))
   }
+
+  console.log('$auth.User:', $auth.user)
 }

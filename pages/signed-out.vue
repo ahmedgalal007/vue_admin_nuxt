@@ -8,7 +8,7 @@
           icon
           large
           color="error"
-          @click="window.location = 'https://localhost:44310/Account/Logout'"
+          @click="window.location = 'https://sts.akhbarelyom.com/Account/Logout'"
         >
           <v-icon>mdi-logout</v-icon>
         </v-btn></client-only
@@ -22,7 +22,7 @@ export default {
   created() {
     if (process.browser) {
       // eslint-disable-next-line nuxt/no-globals-in-created
-      window.location.href = 'https://localhost:44310/Account/Logout'
+      window.location.href = 'https://sts.akhbarelyom.com/Account/Logout'
     }
   },
 }

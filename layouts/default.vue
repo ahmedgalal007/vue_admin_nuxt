@@ -109,8 +109,10 @@
         </v-btn>
       </template>
     </v-snackbar-->
-
+    
     <the-snackbar />
+    <v-speed-dial-menu />
+    
   </v-app>
 </template>
 
@@ -121,6 +123,7 @@ import VAdminNavigationDrawer from './default/v-admin-navigation-drawer.vue'
 import VAdminFooter from './default/v-admin-footer.vue'
 import VLanguageMenu from './default/v-language-menu.vue'
 import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
+import VSpeedDialMenu from './default/v-speed-dial-menu.vue'
 import TheSnackbar from '~/components/TheSnackbar.vue'
 // import idsrvAuth from '~/idsrvAuth'
 
@@ -131,6 +134,7 @@ export default {
     VLanguageMenu,
     VAdminRightDrawer,
     TheSnackbar,
+    VSpeedDialMenu,
   },
   middleware: ['vueOidcClientNuxtAuth'],
   data() {
@@ -143,7 +147,7 @@ export default {
       // text: 'My timeout is set to 2000.',
       // timeout: 2000,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      title: 'ADMIN NUXT',
       loading5: false,
     }
   },
@@ -192,7 +196,7 @@ export default {
       this.miniVariant = this.$refs.rightDrawer.toggelRightDrawer()
     },
     changeRTL(val) {
-      this.$vuetify.theme.themes.dark.anchor = '#ff0000'
+      // this.$vuetify.theme.themes.dark.anchor = '#ff0000'
       this.$vuetify.rtl = val
       this.right = !val
     },

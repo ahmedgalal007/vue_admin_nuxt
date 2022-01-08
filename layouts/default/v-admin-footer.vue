@@ -22,12 +22,15 @@
         Open Snackbar
       </v-btn>
     </div>
+    
   </v-footer>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+// import vSpeedDialMenu from './v-speed-dial-menu.vue'
 export default {
+  // components: { vSpeedDialMenu },
   name: 'VAdminFooter',
   // props: { opensnakbar: { type: Function, default: (message, timeout) => {} } },
   data() {
