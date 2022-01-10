@@ -10,7 +10,7 @@
         :open-on-hover="hover"
         :transition="transition"
     >
-        <template v-slot:activator>
+        <template #activator>
           <v-badge
             :content="3"
             :value="3"
@@ -116,6 +116,7 @@
 
 <script>
   export default {
+    name: 'VSpeedDialMenu',
     data: () => ({
       direction: 'top',
       fab: false,
@@ -165,7 +166,7 @@
 <style>
   /* This is for documentation purposes and will not be needed in your application */
   #create {
-    z-index: 4;
+    z-index: 7;
     position: fixed;
     width: 600px;
     /*height: 200px;*/

@@ -16,7 +16,7 @@
   >
     <v-list>
       <v-list-item
-        v-for="(item, i) in items"
+        v-for="(item, i) in getItems"
         :key="i"
         :to="item.to"
         router
@@ -49,10 +49,15 @@ export default {
       pMiniVariant: this.miniVariant,
       pinned: this.miniVariant,
       pRight: this.right,
-      items: [
+      
+    }
+  },
+  computed:{
+    getItems(){
+      return [
         {
           icon: 'mdi-apps',
-          title: this.$t('welcome'),
+          title: this.$t('navbar.welcome'),
           to: this.localePath('/'),
         },
         {
@@ -75,7 +80,7 @@ export default {
           title: 'Register',
           to: this.localePath('/login/register'),
         },
-      ],
+      ];
     }
   },
   methods: {

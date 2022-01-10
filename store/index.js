@@ -3,7 +3,7 @@ export const state = () => ({
   language: 'en',
   rtl:true,
   isLoading: false,
-})
+})  
 
 export const mutations = {
   /**
@@ -54,6 +54,10 @@ export const actions = {
   setLoading({ state, commit, dispatch }, Enabled) {
     commit('SET_LOADING', Enabled)
   },
+
+  setLanguage({i18n}, local){
+    i18n.switchLocalePath(local);
+  }
 
 }
 

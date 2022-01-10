@@ -156,7 +156,8 @@ export default {
         minifyTheme: undefined,
         themeCache: undefined,
       },
-      themes: {
+      themes:{
+        light: {},
         dark: {
           primary: colors.blue.darken2,
           fontcolor: colors.green.accent4,
@@ -167,7 +168,6 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
         },
-        light: {},
       },
     },
   },
@@ -178,25 +178,40 @@ export default {
   },
 
   i18n: {
-    locales: ['ar', 'en', 'fr', 'es'],
-    defaultLocale: 'en',
-    vueI18n: {
-      fallbackLocale: 'en',
-      messages: {
-        ar: {
-          welcome: 'مرحباً',
-        },
-        en: {
-          welcome: 'Welcome',
-        },
-        fr: {
-          welcome: 'Bienvenue',
-        },
-        es: {
-          welcome: 'Bienvenido',
-        },
+    locales: [
+      {
+        code: 'ar',
+        file: 'ar-EG.js',
+        name: 'العربية',
+        src: '/images/svg/flags/sa.svg',
+        rtl:true,
       },
-    },
+      {
+        code: 'en',
+        file: 'en-US.js',
+        name: 'English',
+        src: '/images/svg/flags/gb.svg',
+        rtl:false,
+      },
+      {
+        code: 'es',
+        file: 'es-ES.js',
+        name: 'Espaneol',
+        src: '/images/svg/flags/gb.svg',
+        rtl:false,
+      },
+      {
+        code: 'fr',
+        file: 'fr-FR.js',
+        name: 'Frensh',
+        src: '/images/svg/flags/gb.svg',
+        rtl:false,
+      }
+    ],
+    defaultLocale: 'ar',
+    lazy: true,
+    langDir: 'localizations/',
+    silentTranslationWarn: false,
   },
   server: { port: 5000 },
 

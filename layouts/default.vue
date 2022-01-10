@@ -68,7 +68,10 @@
           ></v-progress-circular>
         </template>
       </v-switch>
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="$t(title)" />
+      <v-toolbar-items>
+        <ThemeChanger />
+      </v-toolbar-items>
       <v-spacer />
       <client-only>
         <v-btn v-if="isAuthenticated" icon @click.stop="$auth.logout()">
@@ -124,10 +127,12 @@ import VAdminFooter from './default/v-admin-footer.vue'
 import VLanguageMenu from './default/v-language-menu.vue'
 import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
 import VSpeedDialMenu from './default/v-speed-dial-menu.vue'
+import ThemeChanger from './default/theme-provider/ThemeChangerMenu.vue'
 import TheSnackbar from '~/components/TheSnackbar.vue'
 // import idsrvAuth from '~/idsrvAuth'
 
 export default {
+  name: 'VDefaultTemplate',
   components: {
     VAdminNavigationDrawer,
     VAdminFooter,
@@ -135,6 +140,7 @@ export default {
     VAdminRightDrawer,
     TheSnackbar,
     VSpeedDialMenu,
+    ThemeChanger,
   },
   middleware: ['vueOidcClientNuxtAuth'],
   data() {
@@ -147,7 +153,7 @@ export default {
       // text: 'My timeout is set to 2000.',
       // timeout: 2000,
       rightDrawer: false,
-      title: 'ADMIN NUXT',
+      title: 'navbar.Company Name',
       loading5: false,
     }
   },
@@ -169,6 +175,8 @@ export default {
   },
   mounted() {
     console.log('isAuthenticated', this.isAuthenticated)
+    console.log('THEME', this.$vuetify.theme)
+    this.$vuetify.theme.red = true;
     // window.addEventListener('vuexoidc:userLoaded', this.userLoaded)
   },
   destroyed() {
@@ -207,9 +215,6 @@ export default {
     },
     toggleTheme() {
       this.$vuetify.theme.light = !this.$vuetify.theme.dark
-      // this.$vuetify.theme.dark = !this.$vuetify.theme.dark
-      console.log('Dark:', this.$vuetify.theme.dark)
-      console.log('Light:', this.$vuetify.theme.light)
     },
     ...mapActions(['setLoading', 'snackbar/setSnackbar']),
   },
