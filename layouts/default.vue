@@ -1,20 +1,26 @@
 <template>
   <v-app>
-    <v-admin-navigation-drawer
+    <!--v-admin-navigation-drawer
       ref="navDrawer"
       :drawer="getDrawer"
       :mini-variant="getPinned"
       :clipped="getClipped"
-      :right="!right"
-    ></v-admin-navigation-drawer>
+      :right="$vuetify.rtl"
+    /-->
+    <v-modern-navigation-drawer
+      ref="navDrawer"
+      :drawer="getDrawer"
+      :mini-variant="getPinned"
+      :clipped="getClipped"
+      :right="$vuetify.rtl"
+    />
     <v-app-bar
       :clipped-left="!$vuetify.rtl && getClipped ? true : false"
       :clipped-right="$vuetify.rtl && getClipped ? true : false"
       fixed
       app
-      class="white--text font-weight-thin"
+      class="font-weight-thin"
       color="primary"
-      dark
       :extended="false"
       extension-height="40"
     >
@@ -26,9 +32,9 @@
       </v-btn>
       <v-btn v-if="$vuetify.breakpoint.lgAndUp" icon @click.stop="toggelPinned">
         <!--v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon-->
-        <v-icon
-          >mdi-{{ `pin-${miniVariant ? 'outline' : 'off-outline'}` }}</v-icon
-        >
+        <v-icon>
+          mdi-{{ `pin-${miniVariant ? 'outline' : 'off-outline'}` }}
+        </v-icon>
       </v-btn>
       <v-btn
         v-if="$vuetify.breakpoint.lgAndUp"
@@ -37,33 +43,30 @@
       >
         <v-icon>
           mdi-arrow-collapse-up
-          {{ `${!getClipped ? 'mdi-flip-v' : ''}` }}</v-icon
-        >
+          {{ `${!getClipped ? 'mdi-flip-v' : ''}` }}
+        </v-icon>
       </v-btn>
-      <v-btn icon @click.stop="changeRTL(!$vuetify.rtl)">
-        <v-icon
-          >mdi-{{
-            `align-horizontal-${!$vuetify.rtl ? 'right' : 'left'}`
-          }}</v-icon
-        >
-      </v-btn>
+      <!--v-btn icon @click.stop="changeRTL(!$vuetify.rtl)">
+        <v-icon class="white--text">
+          mdi-{{ `align-horizontal-${!$vuetify.rtl ? 'right' : 'left'}`}}
+        </v-icon>
+      </v-btn-->
       <v-switch
         v-model="$vuetify.theme.dark"
-        :color="!!$vuetify.theme.dark ? 'red' : 'orange'"
         align="center"
         class="pa-4 mx-1"
         hide-details
-        light
+        color="secondary"
       >
         <template #label>
-          <v-subheader dark>{{
+          <v-subheader>{{
             `${$vuetify.theme.dark ? 'dark' : 'light'}`
           }}</v-subheader>
           <v-progress-circular
             :indeterminate="$vuetify.theme.dark"
             :value="0"
             size="24"
-            color="orange"
+            color="secondary"
             :class="'ml-2 ' + (!$vuetify.theme.dark ? 'd-none' : '')"
           ></v-progress-circular>
         </template>
@@ -80,18 +83,19 @@
       </client-only>
       <v-language-menu></v-language-menu>
       <v-btn icon @click.stop="toggelRightDrawer">
-        <v-icon>mdi-menu</v-icon>
+        <v-icon class="text-secondary-darken-1">mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-main class="indigo lighten-5">
+
+    <v-main >
       <v-container>
-        <Nuxt />
+          <Nuxt />
       </v-container>
     </v-main>
     <v-admin-right-drawer
       ref="rightDrawer"
       :right-drawer="rightDrawer"
-      :right="right"
+      :right="!$vuetify.rtl"
     ></v-admin-right-drawer>
     <v-admin-footer></v-admin-footer>
     <!--v-snackbar
@@ -122,11 +126,14 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 // import idsrvAuth from '../idsrvAuth'
-import VAdminNavigationDrawer from './default/v-admin-navigation-drawer.vue'
+// import VAnimatedGeadient from './default/backgrounds/v-animated-gradient.vue'
+// import VAdminNavigationDrawer from './default/navigations/v-admin-navigation-drawer.vue'
+import VModernNavigationDrawer from './default/navigations/v-modern-navigation-drawer.vue'
+
 import VAdminFooter from './default/v-admin-footer.vue'
 import VLanguageMenu from './default/v-language-menu.vue'
-import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
 import VSpeedDialMenu from './default/v-speed-dial-menu.vue'
+import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
 import ThemeChanger from './default/theme-provider/ThemeChangerMenu.vue'
 import TheSnackbar from '~/components/TheSnackbar.vue'
 // import idsrvAuth from '~/idsrvAuth'
@@ -134,11 +141,13 @@ import TheSnackbar from '~/components/TheSnackbar.vue'
 export default {
   name: 'VDefaultTemplate',
   components: {
-    VAdminNavigationDrawer,
+    // VAdminNavigationDrawer,
+    VModernNavigationDrawer,
     VAdminFooter,
     VLanguageMenu,
     VAdminRightDrawer,
     TheSnackbar,
+    // VAnimatedGeadient,
     VSpeedDialMenu,
     ThemeChanger,
   },
@@ -147,7 +156,7 @@ export default {
     return {
       miniVariant: true,
       clipped: true,
-      right: false,
+      // right: false,
       drawer: true,
       // snackbar: true,
       // text: 'My timeout is set to 2000.',
@@ -206,7 +215,7 @@ export default {
     changeRTL(val) {
       // this.$vuetify.theme.themes.dark.anchor = '#ff0000'
       this.$vuetify.rtl = val
-      this.right = !val
+      // this.right = !val
     },
     openSnakbar(text, timeout) {
       // this.text = text
@@ -220,3 +229,36 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color:  var(--v-primary-base) #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color:  var(--v-primary-base);
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
+
+  .theme--light.v-sheet,
+  .theme--light.v-label,
+  .theme--light.v-subheader,
+  .theme--light.v-icon,
+  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled),
+  .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__subtitle, 
+  .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__action-text, 
+  .theme--light.v-btn.v-btn--icon{color: var(--v-menu--text-lighten2) !important}
+
+</style>

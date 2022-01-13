@@ -1,1 +1,8 @@
-{}
+{
+  "json.schemas": [{
+    "fileMatch": ["*/*.json"],
+    "url": "./.vscode/JSON_Schema/Color_Schema.json"
+  }],
+  "colorHelper.formatsOrder": [
+    "hsb","hsl","hwb","rgb","hex","named","cmyk","gray"],
+}

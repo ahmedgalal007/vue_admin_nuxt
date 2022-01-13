@@ -25,7 +25,7 @@
             <v-icon v-text="item.icon"></v-icon>
           </v-list-item-icon-->
 
-          <a href="#" @click.self="setLanguage(item.code)">
+          <a style="text-decoration: none" @click.self="setLanguage(item)" >
             <v-list-item-avatar class="rounded-circle">
               <img :src="item.src" :alt="item.name" class="rounded-circle" />
             </v-list-item-avatar>
@@ -59,8 +59,9 @@ export default {
     },
     setLanguage(locale) {
       // this.$root.$i18n.switchLocalePath(locale);
-      this.$root.$i18n.setLocale(locale);
-      this.$root.$i18n.setLocaleCookie(locale);
+      this.$root.$i18n.setLocale(locale.code);
+      this.$root.$i18n.setLocaleCookie(locale.code);
+      this.$vuetify.rtl = locale.rtl;
     },
     getSelectedLocale(code) {
       

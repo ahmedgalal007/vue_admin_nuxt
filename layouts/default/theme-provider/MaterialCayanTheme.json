@@ -1,0 +1,23 @@
+{
+  "$schema": "../../Schemas/vuetify-theme.json",
+  "name": "Material Cayan",
+  "light": {
+    "primary": "#FA053A",
+    "accent": "#FF1F4F",
+    "secondary": "#05FA2C",
+    "success": "#26ff8c",
+    "info": "#ff53d0",
+    "warning": "#ff8e00",
+    "error": "#ff0037"
+  },
+  "dark": {
+    "primary": "#FA053A",
+    "accent": "#FF1F4F",
+    "secondary": "#05FA2C",
+    "success": "#26ff8c",
+    "info": "#ff53d0",
+    "warning": "#ff8e00",
+    "error": "#ff0037"
+  }
+}
+  

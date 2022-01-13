@@ -1,0 +1,25 @@
+{
+  "$schema": "../../Schemas/vuetify-theme.json",
+  "name": "Material Red",
+  "light": {
+    "primary": "#FA053A",
+    "accent": "#2e1fff",
+    "secondary": "#05FA2C",
+    "success": "#26ff8c",
+    "info": "#ff53d0",
+    "warning": "#ff8e00",
+    "error": "#ff0037",
+    "menu--text": "#FFFFFF"
+  },
+  "dark": {
+    "primary": "#6e041b",
+    "accent": "#191188",
+    "secondary": "#068a1c",
+    "success": "#179c5e",
+    "info": "#5e0446",
+    "warning": "#965403",
+    "error": "#ec0000",
+    "menu--text": "#FFFFFF"
+  }
+}
+  

@@ -4,6 +4,15 @@
   </div>
 </template>
 
+<script>
+export default {
+	name:"VAnimatedGradient",
+	setup() {
+		
+	},
+}
+</script>
+
 
 <style>
 body {

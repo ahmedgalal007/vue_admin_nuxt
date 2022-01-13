@@ -1,0 +1,19 @@
+{
+    "$schema":"http://json-schema.org/schema",
+    "type": "object",
+    "allowComments": true,
+    "allowTrailingCommas": true,
+    "properties": {
+        "name": {"type":"string"},
+        "light":{
+            "description": "Colors in the Light theme",
+            "$ref": "./vuetify-colors.json",
+            "additionalProperties": false
+        },
+        "dark":{
+            "description": "Colors in the Dark theme",
+            "$ref": "./vuetify-colors.json",
+            "additionalProperties": false
+        }
+    }
+}

@@ -5,149 +5,116 @@
     :nudge-width="200"
     offset-y
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-btn large icon v-on="on">
-        <v-icon size="30" color="white">mdi-palette</v-icon>
+        <v-icon size="30" >mdi-palette</v-icon>
       </v-btn>
     </template>
     <v-card>
-       <!--      menu content goes here -->
-       <v-list-item>
+      <!--      menu content goes here -->
+      <v-list-item>
         <v-list-item-content
           ><v-list-item-title class="font-weight-bold">
             Dark Mode</v-list-item-title
           >
         </v-list-item-content>
-        <v-list-item-action
-          >
+        <v-list-item-action>
           <v-switch v-model="$vuetify.theme.dark" />
         </v-list-item-action>
       </v-list-item>
-      
+
       <!--      menu content end -->
       <v-divider />
-    </v-card> 
+    </v-card>
     <v-card-text>
-        <v-card class="my-2"
-          :disabled="$vuetify.theme.themes.name === theme.name"
-          @click="setTheme(theme)"
-          hover
-          outlined
-          v-for="(theme, index) in themes"
-          :key="index"
-        >
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ theme.name }}</v-list-item-title
-              >
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-avatar
-                color="success"
-                size="30"
-                v-if="$vuetify.theme.themes.name === theme.name"
-              >
-                <v-icon>mdi-check</v-icon>
-              </v-avatar>
-            </v-list-item-action>
-          </v-list-item>
-          <div class="my-2">
-            <v-chip
-              class="mx-1"
-              label
-              :color="theme.dark[key]"
-              v-for="(key, index) in Object.keys(theme.dark)"
-              :key="index"
+      <v-card
+        v-for="(theme, index) in themes"
+        :key="index"
+        :disabled="$vuetify.theme.themes.name === theme.name"
+        class="my-2"
+        hover
+        outlined
+        @click="setTheme(theme)"
+      >
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">
+              {{ theme.name }}</v-list-item-title
             >
-              {{ key }}</v-chip
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-avatar
+              v-if="$vuetify.theme.themes.name === theme.name"
+              color="success"
+              size="30"
             >
-          </div>
-          <div class="my-2">
-            <v-chip
-              class="mx-1"
-              label
-              :color="theme.light[key]"
-              v-for="(key, index) in Object.keys(theme.light)"
-              :key="index"
-            >
-              {{ key }}</v-chip
-            >
-          </div>
-        </v-card>
-      </v-card-text>
-    </v-menu
-
->
+              <v-icon>mdi-check</v-icon>
+            </v-avatar>
+          </v-list-item-action>
+        </v-list-item>
+        <div class="my-2">
+          <v-chip
+            v-for="(key, i) in Object.keys(theme.dark)"
+            :key="i"
+            class="mx-1"
+            label
+            :color="theme.dark[key]"
+          >
+            {{ key }}</v-chip
+          >
+        </div>
+        <div class="my-2">
+          <v-chip
+            v-for="(key, x) in Object.keys(theme.light)"
+            :key="x"
+            class="mx-1"
+            label
+            :color="theme.light[key]"
+          >
+            {{ key }}</v-chip
+          >
+        </div>
+      </v-card>
+    </v-card-text>
+  </v-menu>
 </template>
 
 <script>
 export default {
-  name: "ThemeChanger",
+  name: 'ThemeChanger',
   data: () => ({
     menu: false,
     themes: [
-      {
-        name: "Theme 1",
-        dark: {
-          primary: "#21CFF3",
-          accent: "#FF4081",
-          secondary: "#21dc79",
-          success: "#86af3f",
-          info: "#f34fc6",
-          warning: "#FB8C00",
-          error: "#FF5252"
-        },
-        light: {
-          primary: "#22daff",
-          accent: "#ff6b99",
-          secondary: "#26ff8c",
-          success: "#a5d64c",
-          info: "#ff53d0",
-          warning: "#ff8e00",
-          error: "#ff5252"
-        }
-      },
-      {
-        name: "Theme 2",
-        dark: {
-          primary: "#E65100",
-          accent: "#7CB342",
-          secondary: "#689F38",
-          success: "#4CAF50",
-          info: "#6156d8",
-          warning: "#1565C0",
-          error: "#FF7043"
-        },
-        light: {
-          primary: "#ffa450",
-          accent: "#a1e754",
-          secondary: "#92de4e",
-          success: "#6dff74",
-          info: "#7365ff",
-          warning: "#2e8ac0",
-          error: "#ff5e3c"
-        }
-      }
-    ]
+      require('./MaterialLightBlueTheme.json'),
+      require('./MaterialLightRedTheme.json'),
+      require('./MaterialRedTheme.json'),
+      require('./MaterialCayanTheme.json'),
+      require('./MaterialBlueTheme.json')
+    ],
   }),
   methods: {
     setTheme(theme) {
       // close menu
-      this.menu = false;
-      const name = theme.name;
-      const dark = theme.dark;
-      const light = theme.light;
+      this.menu = false
+      const name = theme.name
+      const dark = theme.dark
+      const light = theme.light
+
+      console.log("Theme--light",this.$vuetify.theme.themes.light);
+      console.log("Theme--dark",this.$vuetify.theme.themes.dark);
       // set themes
-      Object.keys(dark).forEach(i => {
-        this.$vuetify.theme.themes.dark[i] = dark[i];
-      });
-      Object.keys(light).forEach(i => {
-        this.$vuetify.theme.themes.light[i] = light[i];
-      });
+      Object.keys(dark).forEach((i) => {
+        this.$vuetify.theme.themes.dark[i] = dark[i]
+      })
+      Object.keys(light).forEach((i) => {
+        this.$vuetify.theme.themes.light[i] = light[i]
+      })
       // also save theme name to disable selection
-      this.$vuetify.theme.themes.name = name;
-    }
-  }
-};
+      this.$vuetify.theme.themes.name = name
+
+      // this.$vuetify.theme.themes.light.primaryText = this.$vuetify.theme.themes.light["primary--text"]
+      // this.$vuetify.theme.themes.dark.primaryText = this.$vuetify.theme.themes.dark["primary--text"]
+    },
+  },
+}
 </script>

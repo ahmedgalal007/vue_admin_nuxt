@@ -1,5 +1,5 @@
 <template>
-<v-card id="create">
+<v-card id="create" :style="$vuetify.rtl? {right:'20px'}:{left:'40px'}">
     <v-speed-dial
         v-model="fab"
         :top="top"
@@ -14,12 +14,12 @@
           <v-badge
             :content="3"
             :value="3"
-            color="green"
+            color="accent"
             overlap
           >
             <v-btn
                 v-model="fab"
-                color="blue darken-2"
+                color="secondary darken-2"
                 dark
                 fab
             >
@@ -168,9 +168,9 @@
   #create {
     z-index: 7;
     position: fixed;
-    width: 600px;
+    width: 450px;
     /*height: 200px;*/
-    right: 20px;
+    /* right: 20px; */
     bottom: 15px;
     /* margin-left: -150px; /*half the width*/
   }

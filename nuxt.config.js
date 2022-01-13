@@ -1,5 +1,5 @@
-import colors from 'vuetify/es5/util/colors'
-import hooks from './hooks'
+import hooks from './hooks';
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -16,12 +16,13 @@ export default {
 
   hooks: hooks(this),
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~plugins/global-components',
     '~/plugins/axios',
+    '~/plugins/vuetify',
     { src: '~/plugins/vee-validate.js', ssr: true },
     // { src: '~/plugins/vueOidcClientNuxtAuth', mode: 'client' },
   ],
@@ -54,6 +55,7 @@ export default {
         /* module options */
       },
     ],
+    '@nuxtjs/style-resources',
     // [
     //   '~/modules/ids4-oidc-client/module.js',
     //   {
@@ -62,6 +64,9 @@ export default {
     // ],
   ],
 
+  styleResources: {
+    scss: ['./assets/scss/*.scss']
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // baseURL: 'http://127.0.0.1:3333/api',
@@ -142,35 +147,7 @@ export default {
   content: {},
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    rtl: true,
-    theme: {
-      dark: false,
-      light: true,
-      default: 'light',
-      disable: false,
-      options: {
-        cspNonce: undefined,
-        customProperties: undefined,
-        minifyTheme: undefined,
-        themeCache: undefined,
-      },
-      themes:{
-        light: {},
-        dark: {
-          primary: colors.blue.darken2,
-          fontcolor: colors.green.accent4,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
-        },
-      },
-    },
-  },
+
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

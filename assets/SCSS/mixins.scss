@@ -1,0 +1,36 @@
+@mixin rounding-outward($size : 48,$h:10, $color:#FFFFFF) {
+    content:'';
+    position:absolute;
+    opacity: 1;
+    width: $size + px;
+    height: $size + px;
+    border-radius: 50%;
+    pointer-events: none;
+    transition:none;
+}
+
+@mixin rounding-outward-top-left($size: 48,$h:10, $color:#FFFFFF) {
+    @include rounding-outward($size,$h, $color);
+    left: calc(100% - #{($size + px)});
+    top: (-1 * $size) + px;
+    box-shadow: ((($size + ($h * 2))/2) + px) ((($size + ($h * 2))/2) + px) 0 ($h+px) $color;
+}
+@mixin rounding-outward-bottom-left($size: 48,$h:10, $color:#FFFFFF) {
+    @include rounding-outward($size,$h, $color);
+    left:calc(100% - #{($size + px)});
+    bottom: (-1 * $size) + px;
+    box-shadow: ((($size + ($h * 2))/2) + px) (-1 * (($size + ($h * 2))/2) + px) 0 ($h+px) $color;
+}
+
+@mixin rounding-outward-top-right($size: 48,$h:10, $color:#FFFFFF) {
+    @include rounding-outward($size,$h, $color);
+    right: calc(100% - #{($size + px)});
+    top: (-1 * $size) + px;
+    box-shadow: (-1 * (($size + ($h * 2))/2) + px) ((($size + ($h * 2))/2) + px) 0 ($h+px) $color;
+}
+@mixin rounding-outward-bottom-right($size: 48,$h:10, $color:#FFFFFF) {
+    @include rounding-outward($size,$h, $color);
+    right:calc(100% - #{($size + px)});
+    bottom: (-1 * $size) + px;
+    box-shadow: (-1 * (($size + ($h * 2))/2) + px) (-1 * (($size + ($h * 2))/2) + px) 0 ($h+px) $color;
+}

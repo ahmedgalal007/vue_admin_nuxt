@@ -1,0 +1,24 @@
+{
+  "$schema": "../../Schemas/vuetify-theme.json",
+  "name": "Material Blue",
+  "light": {
+    "primary": "#1976d2",
+    "primary--text": "#FF00FF",
+    "accent": "#FAF11E",
+    "secondary": "#FF1F4F",
+    "success": "#26ff8c",
+    "info": "#ff53d0",
+    "warning": "#ffae00",
+    "error": "#ff0037"
+  },
+  "dark": {
+    "primary": "#011f3d",
+    "primary--text": "#FF00FF",
+    "accent": "#ffa742",
+    "secondary": "#910926",
+    "success": "#307952",
+    "info": "#6b0c52",
+    "warning": "#ece905",
+    "error": "#d11840"
+  }
+}

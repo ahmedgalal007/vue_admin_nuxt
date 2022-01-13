@@ -6,7 +6,8 @@
     :right="right"
     fixed
     app
-    color="secondary"
+    color="primary"
+    overlay-color="accent"
     dark
     @mouseenter.native="
       pinned = pMiniVariant

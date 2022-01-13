@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "allowComments": true,
+  "allowTrailingCommas": true,
+  "properties": {
+    "primary": {
+      "anyOf": [
+        { "type": "string", "format": "color-hex", "default": "#ffd0bcff" },
+        { "type": "string", "format": "color" }
+      ]
+    },
+    "primary--text": {
+      "anyOf": [
+        { "type": "string", "format": "color-hex", "default": "#ffd0bcff" },
+        { "type": "string", "format": "color" }
+      ]
+    },
+    "onPrimary": {
+      "anyOf": [
+        { "type": "string", "format": "color-hex", "default": "#ff381e72" },
+        { "type": "string", "format": "color-hwb" }
+      ]
+    },
+    "primaryContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff4f378b"
+    },
+    "onPrimaryContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffeaddff"
+    },
+    "primaryInverse": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff6750a4"
+    },
+    "secondary": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffccc2dc"
+    },
+    "onSecondary": {
+      "anyOf": [
+        { "type": "string", "format": "color-hex", "default": "#ff332d41" },
+        { "type": "string", "format": "color-string" }
+      ]
+    },
+    "secondaryContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff4a4458"
+    },
+    "onSecondaryContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffe8def8"
+    },
+    "tertiary": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffefb8c8"
+    },
+    "onTertiary": {
+      "anyOf": [
+        { "type": "string", "format": "color-hex", "default": "#ff492532" },
+        {"$ref": "#definitions/style"}
+      ]
+    },
+    "tertiaryContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff633b48"
+    },
+    "onTertiaryContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffffd8e4"
+    },
+    "error": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#fff2b8b5"
+    },
+    "onError": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff601410"
+    },
+    "errorContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff8c1d18"
+    },
+    "onErrorContainer": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#fff2b8b5"
+    },
+    "outline": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff938f99"
+    },
+    "background": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff1c1b1f"
+    },
+    "onBackground": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffe6e1e5"
+    },
+    "surface": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff1c1b1f"
+    },
+    "onSurface": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffe6e1e5"
+    },
+    "surfaceVariant": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff49454f"
+    },
+    "onSurfaceVariant": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffcac4d0"
+    },
+    "surfaceInverse": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ffe6e1e5"
+    },
+    "onSurfaceInverse": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#ff313033"
+    },
+    "accent": { "type": "string", "format": "color-hex", "default": "#7CB342" },
+    "success": {
+      "type": "string",
+      "format": "color-hex",
+      "default": "#4CAF50"
+    },
+    "info": { "type": "string", "format": "color-hex", "default": "#6156d8" },
+    "warning": { "type": "string", "format": "color-hex", "default": "#1565C0" }
+  }
+}
