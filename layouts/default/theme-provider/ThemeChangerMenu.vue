@@ -53,26 +53,44 @@
           </v-list-item-action>
         </v-list-item>
         <div class="my-2">
-          <v-chip
+          <v-tooltip
             v-for="(key, i) in Object.keys(theme.dark)"
             :key="i"
-            class="mx-1"
-            label
-            :color="theme.dark[key]"
+            top
           >
-            {{ key }}</v-chip
-          >
+            <template #activator="{ on, attrs }"> 
+              <v-chip
+                class="mx-1"
+                label
+                x-small
+                v-bind="attrs"
+                :color="theme.dark[key]"
+                v-on="on"
+              >
+              </v-chip>
+            </template>
+            <span>{{key}}</span>
+          </v-tooltip>
         </div>
         <div class="my-2">
-          <v-chip
+          <v-tooltip
             v-for="(key, x) in Object.keys(theme.light)"
             :key="x"
-            class="mx-1"
-            label
-            :color="theme.light[key]"
+            top
           >
-            {{ key }}</v-chip
-          >
+            <template #activator="{ on, attrs }"> 
+              <v-chip
+                class="mx-1"
+                label
+                x-small
+                v-bind="attrs"
+                :color="theme.light[key]"
+                v-on="on"
+              >
+              </v-chip>
+            </template>
+            <span>{{key}}</span>
+          </v-tooltip>
         </div>
       </v-card>
     </v-card-text>

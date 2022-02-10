@@ -7,9 +7,9 @@
     fixed
     app
     color="primary"
-    overlay-color="secondary"
+    overlay-color="menu--text"
     @mouseenter.native="
-      pinned = pMiniVariant
+      pinned = pMiniVariant;
       pMiniVariant = false
     "
     @mouseleave.native="pMiniVariant = pinned"
@@ -170,6 +170,11 @@ export default {
           title: 'Register',
           to: this.localePath('/login/register'),
         },
+        {
+          icon: 'mdi-calendar',
+          title: 'Shifts',
+          to: this.localePath('/section/shifts'),
+        },
       ];
     }
   },
@@ -201,98 +206,111 @@ export default {
   --black2: #999;
 }
 
-button, [type=button], [type=reset], [type=submit], [role=button]{
-    color: var(--v-menu--text-lighten2) !important;
-    caret-color: var(--v-primary-darken4) !important;
-  }
 
-  .v-list .v-list-item--active:not(.v-list-group__header),
-  /* .theme--light.v-list-item--active:hover::before,  */
-  .theme--light.v-list-item--active:not(.v-list-group__header)::before,
-  .v-list .v-list-item--active:not(.v-list-group__header) .v-icon{
-    color: var(--v-primary-base) !important;
-    background-color: #FFFFFF !important;
-    /* opacity: 1 !important; */
-  }
+
+// button, [type=button], [type=reset], [type=submit], [role=button]{
+//   color: var(--v-menu--text-lighten2) !important;
+//   caret-color: var(--v-primary-darken4) !important;
+// }
+
+.v-list .v-list-item--active:not(.v-list-group__header),
+.v-list-item--active:not(.v-list-group__header)::before,
+.v-list .v-list-item--active:not(.v-list-group__header) .v-icon{
+  color: var(--v-primary-base) !important;
+  background-color: #FFFFFF !important;
+}
   
-    .v-list-item--link:before{
-      transition:none;
+.v-list-item--link:before{
+  transition:none;
+}
+#app:not(.v-application--is-rtl){
+  .theme--light{
+    .v-list-item--active:nth-child(1):not(.v-list-group__header)::before  
+    {
+      opacity: 0;
     }
-    #app:not(.v-application--is-rtl){
-      .theme--light.v-list-item--active:not(.v-list-group__header)::before,   
-      .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::before{
-        @include rounding-outward-top-left(48,10, var(--v-menu--text-lighten2));
-      }
-
-      .theme--light.v-list-item--active:not(.v-list-group__header)::after ,
-      .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::after{
-        @include rounding-outward-bottom-left(48,10, var(--v-menu--text-lighten2))
-      }
-      .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover{
-        border-top-left-radius: 24px;
-        border-bottom-left-radius: 24px;
-      }
-
-    }
-    
-    #app.v-application--is-rtl{
-      .theme--light.v-list-item--active:not(.v-list-group__header)::before,   
-      .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::before{
-        @include rounding-outward-top-right(48,10, var(--v-menu--text-lighten2));
-      }
-
-      .theme--light.v-list-item--active:not(.v-list-group__header)::after ,
-      .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::after{
-        @include rounding-outward-bottom-right(48,10, var(--v-menu--text-lighten2))
-      }
-      .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover{
-        border-top-right-radius: 24px;
-        border-bottom-right-radius: 24px;
-      }
+    .v-list-item--active:not(a.v-list-item--active:nth-child(1)):not(.v-list-group__header)::before,   
+    .v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::before{
+      @include rounding-outward-top-left(48,10, var(--v-menu--text-lighten2));
     }
 
-  .theme--light.v-list-item.v-list-item--active::before{
-    
+    .v-list-item--active:not(.v-list-group__header)::after ,
+    .v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::after{
+      @include rounding-outward-bottom-left(48,10, var(--v-menu--text-lighten2))
+    }
+    .v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover{
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+    }
+  }
+
+}
+
+#app.v-application--is-rtl{
+  .theme--light{
+    .v-list-item--active:nth-child(1):not(.v-list-group__header)::before  
+    {
+      opacity: 0;
+    }
+    .v-list-item--active:not(.v-list-group__header)::before,   
+    .v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::before{
+      @include rounding-outward-top-right(48,10, var(--v-menu--text-lighten2));
+    }
+
+    .v-list-item--active:not(.v-list-group__header)::after ,
+    .v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover::after{
+      @include rounding-outward-bottom-right(48,10, var(--v-menu--text-lighten2))
+    }
+    .v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover{
+      border-top-right-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+  }
+}
+
+.theme--light{
+  &.v-list-item.v-list-item--active::before{
+  
     background: var(--v-primary-base) !important;
   }
-   .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) + a.v-list-item--active::before
+  &.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) + a.v-list-item--active::before
   {
-     background: var(--v-primary-base) !important;
+      background: var(--v-primary-base) !important;
   }
-  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover + a.v-list-item--active::before
+  &.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover + a.v-list-item--active::before
   {
-     background: var(--v-menu--text-lighten2) !important;
+      background: var(--v-menu--text-lighten2) !important;
   }
   //  a::after + .theme--light.v-list-item--active:not(.v-list-group__header) 
   //  {
   //    color: var(--v-menu--text-lighten2) !important;
   //  }
-   a::before + .theme--light.v-list-item--active:not(.v-list-group__header) 
+  a::before + &.v-list-item--active:not(.v-list-group__header) 
   {
-     color: var(--v-menu--text-lighten2) !important;
+      color: var(--v-menu--text-lighten2) !important;
   }
 
 
-  .theme--light.v-list-item--active:not(.v-list-group__header) + a:hover::before{
-    
-     color: var(--v-menu--text-lighten2) !important;
+  &.v-list-item--active:not(.v-list-group__header) + a:hover::before{
+      color: var(--v-menu--text-lighten2) !important;
   }
-  
-  
 
-  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover,
-  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover .v-icon{
-    color: var(--v-primary-base) !important;
-    background-color: #FFFFFF !important;
-   }
+  &.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled):hover{
+    & , & .v-list-item__subtitle, & .v-icon{
+      color: var(--v-primary-base) !important;
+      background-color: #FFFFFF !important;
+    }
+  }
+
   .v-list-group--sub-group{
     background-color: var(--v-primary-darken2) !important;
     border-bottom: var(--v-primary-lighten4) 1px solid;
+    .v-list-group__items > .v-list-item {
+      background-color: var(--v-primary-darken3) !important;
+      border-top: var(--v-primary-lighten3) 1px solid;
+    }
   }
-  .v-list-group--sub-group > .v-list-group__items > .v-list-item {
-    background-color: var(--v-primary-darken3) !important;
-    border-top: var(--v-primary-lighten3) 1px solid;
-  }
+}
 
 </style>
 

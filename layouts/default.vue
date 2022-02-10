@@ -89,7 +89,8 @@
 
     <v-main >
       <v-container>
-          <Nuxt />
+          <loading-bar  v-if="nuxtLoader" />
+          <Nuxt v-else/>
       </v-container>
     </v-main>
     <v-admin-right-drawer
@@ -136,6 +137,9 @@ import VSpeedDialMenu from './default/v-speed-dial-menu.vue'
 import VAdminRightDrawer from './default/v-admin-right-drawer.vue'
 import ThemeChanger from './default/theme-provider/ThemeChangerMenu.vue'
 import TheSnackbar from '~/components/TheSnackbar.vue'
+import LoadingBar from '~/components/LoadingBar.vue';
+;
+
 // import idsrvAuth from '~/idsrvAuth'
 
 export default {
@@ -150,6 +154,7 @@ export default {
     // VAnimatedGeadient,
     VSpeedDialMenu,
     ThemeChanger,
+    LoadingBar,
   },
   middleware: ['vueOidcClientNuxtAuth'],
   data() {
@@ -168,6 +173,7 @@ export default {
   },
   computed: {
     ...mapGetters(['getLoading', 'isAuthenticated', 'loggedInUser']),
+    ...mapGetters('ui',['nuxtLoader']),
     // ...mapGetters('oidc', ['oidcIsAuthenticated']),
     // hasAccess() {
     //   return this.oidcIsAuthenticated || this.oidcIsRoutePublic(this.$route)
@@ -181,12 +187,18 @@ export default {
     getPinned() {
       return this.miniVariant
     },
+    getLoading(){
+      return this.loading;
+    }
   },
   mounted() {
     console.log('isAuthenticated', this.isAuthenticated)
     console.log('THEME', this.$vuetify.theme)
     this.$vuetify.theme.red = true;
     // window.addEventListener('vuexoidc:userLoaded', this.userLoaded)
+
+    
+  
   },
   destroyed() {
     // window.removeEventListener('vuexoidc:userLoaded', this.userLoaded)
@@ -252,13 +264,26 @@ export default {
     border: 3px solid #ffffff;
   }
 
-  .theme--light.v-sheet,
-  .theme--light.v-label,
-  .theme--light.v-subheader,
-  .theme--light.v-icon,
-  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled),
-  .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__subtitle, 
-  .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__action-text, 
-  .theme--light.v-btn.v-btn--icon{color: var(--v-menu--text-lighten2) !important}
+  nav .v-list-item__title,
+  nav .v-toolbar__title,
+  nav .theme--light.v-sheet,
+  nav .theme--light.v-label,
+  nav .theme--light.v-subheader,
+  nav .theme--light.v-icon,
+  nav .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled),
+  nav .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__subtitle, 
+  nav .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__action-text, 
+  nav .theme--light.v-btn.v-btn--icon{color: var(--v-menu--text-lighten2) !important}
+  header .v-toolbar__title,
+  header .theme--light.v-sheet,
+  header .theme--light.v-label,
+  header .theme--light.v-subheader,
+  header .theme--light.v-icon,
+  header .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled),
+  header .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__subtitle, 
+  header .theme--light.v-list-item:not(.v-list-item--disabled) .v-list-item__action-text, 
+  header .theme--light.v-btn.v-btn--icon{color: var(--v-menu--text-lighten2) !important}
 
+  nav .v-list-item:hover .v-list-item__title,
+  nav .v-list-item--active .v-list-item__title{color: var(--v-primary-base) !important}
 </style>

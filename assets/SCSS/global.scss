@@ -1,0 +1,64 @@
+@font-face {
+    font-family: "Aref Ruqaa";
+    src: local("Aref Ruqaa"),
+     url(~assets/fonts/Aref_Ruqaa/ArefRuqaa-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Tajawal";
+    src: local("Tajawal"),
+     url(~assets/fonts/Tajawal/Tajawal-Black.ttf) format("truetype");
+    font-weight: Black;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Tajawal";
+    src: local("Tajawal"),
+     url(~assets/fonts/Tajawal/Tajawal-Bold.ttf) format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Tajawal";
+    src: local("Tajawal"),
+     url(~assets/fonts/Tajawal/Tajawal-ExtraBold.ttf) format("truetype");
+    font-weight: bolder;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Tajawal";
+    src: local("Tajawal"),
+     url(~assets/fonts/Tajawal/Tajawal-ExtraLight.ttf) format("truetype");
+    font-weight: lighter;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Tajawal";
+    src: local("Tajawal"),
+     url(~assets/fonts/Tajawal/Tajawal-Light.ttf) format("truetype");
+    font-weight: light;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Tajawal";
+    src: local("Tajawal"),
+     url(~assets/fonts/Tajawal/Tajawal-Medium.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Tajawal";
+    src: local("Tajawal"),
+     url(~assets/fonts/Tajawal/Tajawal-Regular.ttf) format("truetype");
+    font-weight: normal;
+    font-style: regular;
+}
+
+html {
+    font-family: "Tajawal", "Roboto", sans-serif;
+}
+
+
+.v-application {
+    font-family: "Tajawal", "Roboto", sans-serif;
+}

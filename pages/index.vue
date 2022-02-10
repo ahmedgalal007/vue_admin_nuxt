@@ -81,11 +81,26 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 export default {
   middleware: ['auth'],
   auth: false,
   mounted() {
-    console.log('$auth', this.$auth.user)
+    console.log('$auth', this.$auth.user);
+    this.$nextTick(() => {
+        /* this.$nuxt.$loading.start();
+        this.$store.commit('ui/SHOW_LOADER');
+      setTimeout(() =>   {this.$nuxt.$loading.finish();this.$store.commit('ui/HIDE_LOADER');}, 3000);  */ 
+    });
+    this.setSnackbar({
+      showing: true,
+            text: 'Error: connect to server',
+            timeout: 5000,
+            color: this.$vuetify.theme.themes.light.error ,
+    });
   },
+  methods:{
+    ...mapActions('snackbar', ['setSnackbar']),
+  }
 }
 </script>

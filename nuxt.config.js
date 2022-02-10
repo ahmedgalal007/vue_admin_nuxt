@@ -14,6 +14,10 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  loading: '~/components/Loading.vue',
+  // ssr: false,
+
+
   hooks: hooks(this),
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~assets/css/main.css'],
@@ -44,8 +48,6 @@ export default {
     '@nuxtjs/axios',
     // '@nuxtjs/proxy',
     '@nuxtjs/auth-next',
-    // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
     // https://i18n.nuxtjs.org/setup
@@ -56,6 +58,8 @@ export default {
       },
     ],
     '@nuxtjs/style-resources',
+    // https://go.nuxtjs.dev/pwa
+    ['@nuxtjs/pwa',{icon: false}],
     // [
     //   '~/modules/ids4-oidc-client/module.js',
     //   {
@@ -198,4 +202,4 @@ export default {
     // middleware: ['vueOidcClientNuxtAuthMiddleware']
     middleware: ['vueOidcClientNuxtAuth'],
   },
-}
+};
