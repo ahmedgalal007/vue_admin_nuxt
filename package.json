@@ -23,7 +23,7 @@
     "oidc-client": "^1.11.5",
     "vee-validate": "^3.4.13",
     "vue-oidc-client": "^1.0.0-alpha.2",
-    "vuetify": "2.6.2"
+    "vuetify": "2.6.6"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
